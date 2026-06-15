@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <main>
+        <nav>
+            <h1>TO-Do</h1>
+            <button>New Task</button>
+        </nav>
+        <section>
+            <div id="toDo" class="task-container dropZone">
+                <div class="header">
+                    <h2>To-Do</h2>
+                    <span>Count</span>
+                </div>
+                <div draggable="true" class="task">
+                    <h3>Task</h3>
+                    <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ipsum quasi consectetur necessitatibus
+                        maiores esse sint at, quibusdam commodi, temporibus ullam, ipsam itaque iste! Eum quod sed ex
+                        officia dolor facere.</p>
+                    <div>
+                        <button class="edit">Edit</button>
+                        <button class="del">Delete</button>
+                    </div>
+                </div>
+
+                <div draggable="true" class="task">
+                    <h3>Design Landing Page</h3>
+                    <p>Create a high-fidelity mockup for the new homepage using Tailwind CSS. Focus on a modern,
+                        high-contrast hero section and smooth glassmorphism effects.</p>
+                    <div>
+                        <button class="edit">Edit</button>
+                        <button class="del">Delete</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="inProgress" class="task-container dropZone">
+                <div class="header">
+                    <h2>In Progress</h2>
+                    <span>Count</span>
+                </div>
+
+                <div draggable="true" class="task">
+                    <h3>Fix Event Bubbling Bug</h3>
+                    <p>Resolve the issue where clicking the "Delete" button inside a task card accidentally triggers the
+                        card's parent drag events. Handle events separately.</p>
+                    <div>
+                        <button class="edit">Edit</button>
+                        <button class="del">Delete</button>
+                    </div>
+                </div>
+
+                <div draggable="true" class="task">
+                    <h3>Database Schema Setup</h3>
+                    <p>Design and migrate the initial SQL database tables for users, tasks, and column categories.
+                        Ensure proper foreign key relationships for cascading deletes.</p>
+                    <div>
+                        <button class="edit">Edit</button>
+                        <button class="del">Delete</button>
+                    </div>
+                </div>
+
+                <div draggable="true" class="task">
+                    <h3>Implement Task Counter</h3>
+                    <p>Write a JavaScript function that counts the total number of items in each column dynamically and
+                        updates the DOM text inside the column headers.</p>
+                    <div>
+                        <button class="edit">Edit</button>
+                        <button class="del">Delete</button>
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div id="Completed" class="task-container dropZone">
+                <div class="header">
+                    <h2>Completed</h2>
+                    <span>Count</span>
+                </div>
+
+                <div draggable="true" class="task">
+                    <h3>User Authentication</h3>
+                    <p>Set up secure user sign-up, login, and session tracking. Include custom password validation rules
+                        and add a password update form in settings.</p>
+                    <div>
+                        <button class="edit">Edit</button>
+                        <button class="del">Delete</button>
+                    </div>
+                </div>
+
+                <div draggable="true" class="task">
+                    <h3>API Endpoint Testing</h3>
+                    <p>Perform basic testing on all CRUD endpoints (Create, Read, Update, Delete) to ensure invalid
+                        payloads are caught properly and return clear error messages.</p>
+                    <div>
+                        <button class="edit">Edit</button>
+                        <button class="del">Delete</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

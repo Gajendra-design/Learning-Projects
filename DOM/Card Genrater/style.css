@@ -1,0 +1,195 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    /* bgc */
+    --bgc-main: black;
+    --bgc-section: rgb(31, 28, 28);
+    --bgc-card: rgba(15, 13, 13, 0.856);
+    --bgc-new-btn: whitesmoke;
+    --bgc-add-btn: darkcyan;
+    --bgc-search-btn: darkcyan;
+    --bgc-update-btn: darkgreen;
+    --bgc-edit-btn: darkgoldenrod;
+    --bgc-delete-btn: darkred;
+
+    /* color */
+    --primary-color: whitesmoke;
+    --secondary-color: black;
+
+    /* font-size */
+    --s-font: 1rem;
+    --m-font: 1.5rem;
+    --l-font: 2rem;
+    --xl-font: 3rem;
+
+    /* padding */
+    --s-p: 8px;
+    --m-p: 16px;
+    --l-p: 24px;
+    --p-s-btn: 8px 20px;
+    --p-s-input: 8px 12px;
+
+    /* gap */
+    --s-gap: 8px;
+    --m-gap: 16px;
+    --l-gap: 24px;
+
+    /* border radius */
+    --s-radius: 5px;
+    --m-radius: 10px;
+    --l-radius: 15px;
+    --rounded-radius: 50%;
+}
+
+html,
+body {
+    height: 100%;
+    width: 100%;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    background-color: var(--bgc-main);
+    color: var(--primary-color);
+}
+
+main {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: var(--l-p);
+    gap: var(--m-gap);
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--m-p);
+}
+
+button {
+    padding: var(--p-s-btn);
+    border: transparent;
+    border-radius: var(--m-radius);
+    cursor: pointer;
+}
+
+nav button{
+    background-color: var(--bgc-new-btn);
+    color: var(--secondary-color);
+}
+
+.searchContainer button{
+    background-color: var(--bgc-search-btn);
+    color: var(--primary-color);
+}
+
+section {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    background-color: var(--bgc-section);
+    border: transparent;
+    border-radius: var(--l-radius);
+    padding: var(--l-p);
+    gap: var(--l-gap);
+    overflow-y: scroll;
+    scrollbar-width: none;
+}
+
+.card {
+    background-color: var(--bgc-card);
+    padding: var(--m-p);
+    border: 0.5px solid white;
+    border-radius: var(--m-radius);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    height: 400px;
+    width: 400px;
+}
+
+.imgContainer {
+    border: transparent;
+    border-radius: var(--rounded-radius);
+    height: 50%;
+    width: 50%;
+    position: relative;
+    overflow: hidden;
+    background-color: black;
+    text-align: center;
+}
+
+.imgContainer img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+}
+
+.btnContainer{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#edit{
+    background-color: var(--bgc-edit-btn);
+    color: var(--primary-color);
+}
+
+#delete{
+    background-color: var(--bgc-delete-btn);
+    color: var(--primary-color);
+}
+
+.formContainer {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 0%;
+    left: 0%;
+    z-index: 1;
+    background-color: rgba(0, 0, 0, 0.55);
+    backdrop-filter: blur(8px);
+    display: none;
+}
+
+form{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    display: flex;
+    flex-direction: column;
+    gap: var(--l-gap);
+    padding: var(--m-p);
+    border: 1px solid white;
+    border-radius: var(--l-radius);
+    z-index: 2;
+}
+
+input{
+    padding: var(--p-s-input);
+    outline: none;
+    border: transparent;
+    border-radius: var(--l-radius);
+}
+
+#addForm, #updateForm{
+    display: none;
+}
+
+.add{
+    background-color: var(--bgc-add-btn);
+}
+
+.update{
+    background-color: var(--bgc-update-btn);
+}
+
+
+

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CARD Genrater</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <main>
+        <nav>
+            <h1>Card Genrater</h1>
+            <div class="searchContainer">
+                <input id="searchBar" type="text" placeholder="search here....">
+                <button>Search</button>
+            </div>
+            <button id="newBtn">New Card</button>
+        </nav>
+        <section class="cardContainer">
+            <!-- <div class="card">
+                <div class="imgContainer">
+                    <img src="https://images.unsplash.com/photo-1781084819510-d401a1e77a7c?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHw0OHx8fGVufDB8fHx8fA%3D%3D"
+                        alt="Image Here">
+                </div>
+                <h2>Name: Gajedra</h2>
+                <p>Email: hajsh@gmail.com</p>
+                <span>Occupation: Devloper</span>
+                <div class="btnContainer">
+                    <button id="edit">Edit</button>
+                    <button id="delete">Delete</button>
+                </div>
+            </div> -->
+        </section>
+    </main>
+
+    <div class="formContainer">
+        <form action="" id="addForm">
+            <input id="imageURL" autocomplete="off" type="text" placeholder="Image URL" required>
+            <input id="name" autocomplete="off" type="text" placeholder="name" required>
+            <input id="email" autocomplete="off" type="email" placeholder="email" required>
+            <input id="occupation" autocomplete="off" type="text" placeholder="Occupation" required>
+            <button id="adding" class="add">Add</button>
+        </form>
+
+        <form action="" id="updateForm">
+            <input type="text" id="cardId">
+            <input id="updateimageURL" autocomplete="off" type="text" placeholder="Image URL" required>
+            <input id="updatename" autocomplete="off" type="text" placeholder="name" required>
+            <input id="updateemail" autocomplete="off" type="email" placeholder="email" required>
+            <input id="updateoccupation" autocomplete="off" type="text" placeholder="Occupation" required>
+            <button id="update" class="update">Update</button>
+        </form>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

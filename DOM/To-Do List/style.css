@@ -1,0 +1,125 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root{
+    /* backround color */
+    --bg-body: black;
+    --bg-button: rgba(27, 27, 27, 0.637); 
+    --bg-container: rgba(51, 51, 51, 0.719);
+    --bg-task: rgba(32, 32, 32, 0.938);
+    --bg-delete: darkRed;
+    --bg-edit: darkgoldenrod;
+
+    /* text color */
+    --primary-color: rgba(245, 245, 245, 0.897);
+
+    /* gap */
+    --gap-sm: 5px;
+    --gap-md: 10px;
+    --gap-lg: 15px;
+
+    /* padding */
+    --p-sm: 5px;
+    --p-md: 10px;
+    --p-lg: 15px;
+    --p-xl: 20px;
+
+    /* border radius */
+    --r-sm: 5px;
+    --r-md: 10px;
+    --r-lg: 15px;
+}
+
+html, body{
+    height: 100%;
+    width: 100%;
+    background-color: var(--bg-body);
+    color: var(--primary-color);
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    
+}
+
+main{
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-sm);
+}
+
+nav{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--p-lg);
+}
+
+button{
+    background-color: var(--bg-button);
+    color: var(--primary-color);
+    border: transparent;
+    outline: none;
+    cursor: pointer;
+    padding: var(--p-lg);
+    border-radius: var(--r-md);
+}
+
+section{
+    display: flex;
+    gap: var(--gap-lg);
+    justify-content: space-between;
+    padding: var(--p-lg);
+    flex-grow: 1;
+}
+
+.task-container{
+    background-color: var(--bg-container);
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-md);
+    max-width: 33%;
+    padding: var(--p-md);
+    border: transparent;
+    border-radius: var(--r-md);
+    transform: all 0.5s ease-in;
+}
+
+.hover{
+    border: 3px dashed var(--primary-color);
+    scale: 1.03;
+}
+
+.header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--p-md);
+}
+
+.task{
+    display: flex;
+    flex-direction: column;
+    background-color: var(--bg-task);
+    padding: var(--p-md);
+    gap: var(--gap-lg);
+    border: transparent;
+    border-radius: var(--r-md);
+    cursor: grabbing;
+}
+
+.task div{
+    align-self: flex-end;
+    display: flex;
+    gap: var(--gap-md);
+}
+
+.edit{
+    background-color: var(--bg-edit);
+}
+
+.del{
+    background-color: var(--bg-delete);
+}
