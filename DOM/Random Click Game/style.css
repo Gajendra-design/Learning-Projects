@@ -1,0 +1,114 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root{
+    /* backround colour */
+    --bgc-main: black;
+    --bgc-box: red;
+    --bgc-btn: whitesmoke;
+
+    /* color */
+    --primary-color: whitesmoke;
+    --secondary-color: black;
+
+    /* padding */
+    --p-sm: 8px;
+    --p-m: 16px;
+    --p-l: 24px;
+    --p-btn: 8px 20px;
+
+    /* gap */
+     --gap-sm: 5px;
+    --gap-m: 10px;
+    --gap-l: 15px;
+
+    /* height and width */
+    --container-height: 500px;
+    --container-width: 500px;
+    --box-height: 40px;
+    --box-width: 40px;
+
+    /* border radius */
+    --radius-sm: 5px;
+    --radius-m: 10px;
+    --radius-l: 15px;
+}
+
+html, body{
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--bgc-main);
+    color: var(--primary-color);
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+main{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--gap-l);
+}
+
+.gameInfo{
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.container{
+    height: var(--container-height);
+    width: var(--container-width);
+    border: 1px solid var(--primary-color);
+    border-radius: var(--radius-m);
+    position: relative;
+}
+
+button{
+    padding: var(--p-btn);
+    background-color: var(--bgc-btn);
+    border: transparent;
+    border-radius: var(--radius-l);
+    cursor: pointer;
+}
+
+.box{
+    height: var(--box-height);
+    width: var(--box-width);
+    position: absolute;
+    /* background-color: red; */
+    /* top: 100%;
+    left: 0%;
+    transform: translate(-110%,-110%); */
+}
+
+.gameOver{
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0%;
+    left: 0%;
+    background-color: rgb(0, 0, 0,0.55);
+    backdrop-filter: blur(5px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+    display: none;
+}
+
+h1{
+    font-size: 10rem;
+}
+
+.scoreInfo{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+}
