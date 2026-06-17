@@ -136,6 +136,7 @@ section {
     border-radius: var(--r-md);
     overflow-y: auto;
     scrollbar-width: none;
+    position: relative;
 }
 
 .task-container-header {
@@ -148,6 +149,7 @@ section {
     position: sticky;
     top: 0%;
     border-radius: var(--r-md);
+    z-index: 2;
 }
 
 #inProgress, #Completed{
