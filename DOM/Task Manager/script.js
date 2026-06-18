@@ -14,67 +14,27 @@ const totalInProgressTasks = document.querySelector('#totalInProgressTasks');
 const totalCompletedTasks = document.querySelector('#totalCompletedTasks');
 let updateIndex = null;
 
-let tasks = [
-    {
-        id: 1,
-        title: "Design Landing Page Wireframe",
-        description: "Create the initial layout design for the homepage using Tailwind CSS grids, focusing on a clean hero section.",
-        priority: "important",
-        status: "completed"
-    },
-    {
-        id: 2,
-        title: "Setup MongoDB Connection",
-        description: "Configure the database connection strings and test the initial connection with the Express backend.",
-        priority: "imidiate",
-        status: "completed"
-    },
-    {
-        id: 3,
-        title: "Fix Navbar Mobile Responsiveness",
-        description: "Resolve the alignment issue on mobile screens where the hamburger menu cuts off the user profile link.",
-        priority: "delayble",
-        status: "completed"
-    },
-    {
-        id: 4,
-        title: "Implement JWT Authentication",
-        description: "Create the login and signup API endpoints, hash passwords using bcrypt, and generate secure JSON Web Tokens.",
-        priority: "imidiate",
-        status: "inComplete"
-    },
-    {
-        id: 5,
-        title: "Write Form Validation Logic",
-        description: "Add client-side checks for the contact form to ensure emails are valid and required fields aren't empty.",
-        priority: "important",
-        status: "inComplete"
-    },
-    {
-        id: 6,
-        title: "Add Custom Favicon to Project",
-        description: "Generate a crisp 32x32 icon asset and link it in the main HTML document layout to clear browser console 404 errors.",
-        priority: "delayble",
-        status: "inComplete"
-    }
-];
+let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
 
-//in the start checking if there is any existing tasks or not
 renderInProgressTasks(tasks);
 renderCompletedTasks(tasks);
 
 //changing ui if there is 0 tasks to add
-if(inProgressTaskContainer.childElementCount ===  0){
-    inProgressTaskContainer.innerHTML = `<div class="noTask">0 In Progress Tasks. Be First to creat one...</div>`;
-    
+if (tasks.length === 0) {
+    inProgressTaskContainer.innerHTML = `<div class="noTask" id="noTask">0 In Progress Tasks. Be First to creat one...</div>`;
+
 }
 
-if(CompletedTaskContainer.childElementCount === 0){
+if (tasks.length === 0) {
     CompletedTaskContainer.innerHTML = `<div class="noTask">0 Task Completed. Be First to Create and Complete one....</div>`;
 }
 
 //devloping search on the basis of title, description and priority
 searchInp.addEventListener('keyup', (e) => {
+    if(tasks.length === 0){
+        return;
+    }
+    
     const searchInput = e.target.value.toLowerCase();
 
     const result = tasks.filter(task => (task.title.toLowerCase().includes(searchInput) || task.description.toLowerCase().includes(searchInput) || task.priority.toLowerCase().includes(searchInput)))
@@ -93,12 +53,13 @@ searchInp.addEventListener('keyup', (e) => {
 
 //clearing both tasks containers
 clearAllBtn.addEventListener('click', () => {
+    localStorage.clear()
     inProgressTaskContainer.innerHTML = `<div class="noTask">0 In Progress Tasks. Be First to creat one...</div>`;
     CompletedTaskContainer.innerHTML = `<div class="noTask">0 Task Completed. Be First to Create and Complete one....</div>`;
     totalCompletedTasks.textContent = '0';
     totalInProgressTasks.textContent = '0';
     tasks = [];
-    
+
 })
 
 //form visibilty controle by DOM
@@ -120,19 +81,28 @@ form.addEventListener('submit', (e) => {
     e.preventDefault()
 
     if (!updateIndex) {
-        tasks.push({
+
+        const LocalTasks = JSON.parse(localStorage.getItem('tasks')) || [];
+        LocalTasks.push({
             id: Date.now(),
             title: title.value,
             description: description.value,
             priority: priority.value,
             status: 'inComplete'
         })
+
+        localStorage.setItem('tasks', JSON.stringify(LocalTasks));
+        tasks = JSON.parse(localStorage.getItem('tasks'));
+
     } else {
 
         const index = tasks.findIndex(task => task.id === updateIndex);
         tasks[index].title = title.value;
         tasks[index].description = description.value;
         tasks[index].priority = priority.value;
+
+        localStorage.setItem('tasks', JSON.stringify(tasks));
+
 
         renderInProgressTasks(tasks);
 
@@ -179,9 +149,9 @@ function renderInProgressTasks(tasks) {
     })
 
     totalInProgressTasks.textContent = count;
-        if(count === 0){
-            inProgressTaskContainer.innerHTML = `<div class="noTask">0 In Progress Tasks. Be First to creat one...</div>`;
-        }
+    if (count === 0) {
+        inProgressTaskContainer.innerHTML = `<div class="noTask">0 In Progress Tasks. Be First to creat one...</div>`;
+    }
 
 }
 
@@ -215,7 +185,7 @@ function renderCompletedTasks(tasks) {
     })
     totalCompletedTasks.textContent = count;
 
-    if(count === 0){
+    if (count === 0) {
         CompletedTaskContainer.innerHTML = `<div class="noTask">0 Task Completed. Be First to Create and Complete one....</div>`;
     }
 
@@ -225,6 +195,7 @@ function renderCompletedTasks(tasks) {
 function deleteTask(id) {
     const index = tasks.findIndex(task => Number(id) === task.id);
     const deletedElement = tasks.splice(index, 1);
+    localStorage.setItem('tasks', JSON.stringify(tasks));
 
 
     if (deletedElement[0].status === "inComplete") {
@@ -254,6 +225,9 @@ function updateTask(id) {
 function taskDone(id) {
     const index = tasks.findIndex(task => Number(id) === task.id);
     tasks[index].status = 'completed';
+
+    localStorage.setItem('tasks', JSON.stringify(tasks));
+
     renderInProgressTasks(tasks);
     renderCompletedTasks(tasks);
 }
