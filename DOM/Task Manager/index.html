@@ -6,16 +6,37 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Task Manager</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
 </head>
 
 <body>
     <main>
         <nav>
             <h1>Task Manager</h1>
-            <div class="searchBar">
-                <input type="text" placeholder="Search here...." id="searchInp">
+
+
+            <form id="filterForm">
+                <input type="text" placeholder="Search here...." id="searchInput">
                 <button id="SearchBtn">Search</button>
-            </div>
+
+                <span id="filterBtn"><i class="fa-solid fa-filter"></i></span>
+
+                <div class="filterOptions">
+                    <div>
+                        <label for="imidiateFilter">Immediate:</label>
+                        <input type="checkbox" name="filter" value="imidiate" id="imidiateFilter">
+                    </div>
+                    <div>
+                        <label for="importantFilter">Important:</label>
+                        <input type="checkbox" name="filter" value="important" id="importantFilter">
+                    </div>
+                    <div>
+                        <label for="delaybleFilter">Delayable:</label>
+                        <input type="checkbox" name="filter" value="delayble" id="delaybleFilter">
+                    </div>
+                </div>
+            </form>
+
             <div class="navRight">
                 <button id="createBtn" class="createBtn">Create Task</button>
                 <button id="clearAll" class="clearAll">Clear All</button>
@@ -44,7 +65,7 @@
         </section>
 
         <div id="formContainer" class="formContainer">
-            <form action="">
+            <form action="" id="addUpdateForm">
                 <div>
                     <label for="title">Task Title</label>
                     <input name="title" id="title" type="text" placeholder="Task Title" required>

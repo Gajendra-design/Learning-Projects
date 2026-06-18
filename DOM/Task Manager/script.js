@@ -1,6 +1,6 @@
 const createBtn = document.querySelector('#createBtn');
 const formContainer = document.querySelector('#formContainer');
-const form = document.querySelector('form');
+const addUpdateForm = document.querySelector('#addUpdateForm');
 const title = document.querySelector('#title');
 const description = document.querySelector('#description');
 const priority = document.querySelector('#priorityOption')
@@ -9,9 +9,12 @@ const CompletedTaskContainer = document.querySelector('#Completed');
 const doneBtn = document.querySelector('#done');
 const submitBtn = document.querySelector('#addBtn');
 const clearAllBtn = document.querySelector('#clearAll');
-const searchInp = document.querySelector('#searchInp');
 const totalInProgressTasks = document.querySelector('#totalInProgressTasks');
 const totalCompletedTasks = document.querySelector('#totalCompletedTasks');
+const filterForm = document.querySelector('#filterForm');
+const searchInput = document.querySelector('#searchInput');
+const filterBtn = document.querySelector('#filterBtn');
+const filterOptions = document.querySelector('.filterOptions');
 let updateIndex = null;
 
 let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
@@ -21,35 +24,13 @@ renderCompletedTasks(tasks);
 
 //changing ui if there is 0 tasks to add
 if (tasks.length === 0) {
-    inProgressTaskContainer.innerHTML = `<div class="noTask" id="noTask">0 In Progress Tasks. Be First to creat one...</div>`;
-
+    inProgressTaskContainer.innerHTML = `<div class="noTask" id="freshStart">0 In Progress Tasks. Be First to creat one...</div>`;
 }
 
 if (tasks.length === 0) {
-    CompletedTaskContainer.innerHTML = `<div class="noTask">0 Task Completed. Be First to Create and Complete one....</div>`;
+    CompletedTaskContainer.innerHTML = `<div class="noTask" id="freshStart">0 Task Completed. Be First to Create and Complete one....</div>`;
 }
 
-//devloping search on the basis of title, description and priority
-searchInp.addEventListener('keyup', (e) => {
-    if(tasks.length === 0){
-        return;
-    }
-    
-    const searchInput = e.target.value.toLowerCase();
-
-    const result = tasks.filter(task => (task.title.toLowerCase().includes(searchInput) || task.description.toLowerCase().includes(searchInput) || task.priority.toLowerCase().includes(searchInput)))
-
-    if (result.length === 0) {
-        inProgressTaskContainer.innerHTML = `<div class="noResult">No Matching Results....</div>`
-        CompletedTaskContainer.innerHTML = `<div class="noResult">No Matching Results....</div>`
-    } else {
-        renderInProgressTasks(result);
-        renderCompletedTasks(result);
-    }
-
-
-
-})
 
 //clearing both tasks containers
 clearAllBtn.addEventListener('click', () => {
@@ -62,7 +43,7 @@ clearAllBtn.addEventListener('click', () => {
 
 })
 
-//form visibilty controle by DOM
+//addUpdate form visibilty controle by DOM
 createBtn.addEventListener('click', () => {
     submitBtn.textContent = "Create Task";
     submitBtn.style.backgroundColor = "var(--bg-add)"
@@ -77,8 +58,9 @@ formContainer.addEventListener('click', (e) => {
 })
 
 // handeling form submission
-form.addEventListener('submit', (e) => {
+addUpdateForm.addEventListener('submit', (e) => {
     e.preventDefault()
+
 
     if (!updateIndex) {
 
@@ -109,18 +91,39 @@ form.addEventListener('submit', (e) => {
         updateIndex = null;
     }
 
+    console.log(tasks);
     renderInProgressTasks(tasks);
 
     formContainer.style.display = "none";
 
-    form.reset();
+    addUpdateForm.reset();
 })
 
+filterBtn.addEventListener('click', () => {
+    //i haven't used filterOptions.style.display old way because it gives inline styles not css class styles so we will miss one click initially so for that we have to use window.getComputedStyle(filterOptions).display we can use this but i amgoing with toggle method here
+
+    filterOptions.classList.toggle('show');
 
 
+
+})
+
+//handeling filter form
+filterForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    return
+})
+
+searchInput.addEventListener('keyup', (e) => {
+    searchAndRendre();
+})
+
+filterForm.addEventListener('change', (e) => {
+    searchAndRendre();
+})
 
 // reder function for in progress tasks
-function renderInProgressTasks(tasks) {
+function renderInProgressTasks(tasks, whoCalling) {
 
     inProgressTaskContainer.innerHTML = "";
     let count = 0;
@@ -149,14 +152,19 @@ function renderInProgressTasks(tasks) {
     })
 
     totalInProgressTasks.textContent = count;
+
     if (count === 0) {
-        inProgressTaskContainer.innerHTML = `<div class="noTask">0 In Progress Tasks. Be First to creat one...</div>`;
+        inProgressTaskContainer.innerHTML = `<div class="noTask" id="freshStart">0 In Progress Tasks. Be First to creat one...</div>`;
+    }
+
+    if ((count === 0) && (whoCalling === 'searchFunctionality')) {
+        inProgressTaskContainer.innerHTML = `<div class="noTask">No Results found</div>`
     }
 
 }
 
 // render funciton for completedtasks
-function renderCompletedTasks(tasks) {
+function renderCompletedTasks(tasks, whoCalling) {
 
     CompletedTaskContainer.innerHTML = "";
 
@@ -186,7 +194,11 @@ function renderCompletedTasks(tasks) {
     totalCompletedTasks.textContent = count;
 
     if (count === 0) {
-        CompletedTaskContainer.innerHTML = `<div class="noTask">0 Task Completed. Be First to Create and Complete one....</div>`;
+        CompletedTaskContainer.innerHTML = `<div class="noTask" id="freshStart">0 Task Completed. Be First to Create and Complete one....</div>`;
+    }
+
+    if ((count === 0) && (whoCalling === 'searchFunctionality')) {
+        CompletedTaskContainer.innerHTML = `<div class="noTask">No Results found</div>`
     }
 
 }
@@ -230,4 +242,59 @@ function taskDone(id) {
 
     renderInProgressTasks(tasks);
     renderCompletedTasks(tasks);
+}
+
+function searchAndRendre() {
+    if(tasks.length === 0){
+        return;
+    }
+
+    const searchInputValues = searchInput.value.toLowerCase();
+
+    const filterDataOptions = new FormData(filterForm);
+    const selectedFilters = filterDataOptions.getAll('filter');
+
+    const filterTasks = tasks.filter((task) => {
+        return (
+            task.title.toLowerCase().includes(searchInputValues) ||
+            task.description.toLowerCase().includes(searchInputValues) ||
+            task.priority.toLowerCase().includes(searchInputValues)
+        );
+    })
+
+    // console.log(filterTasks);
+
+
+    if (selectedFilters.length === 0) {
+        if (filterTasks.length === 0) {
+            inProgressTaskContainer.innerHTML = `<div class="noTask">No Results found</div>`
+            CompletedTaskContainer.innerHTML = `<div class="noTask">No Results found</div>`
+            totalInProgressTasks.textContent = 0;
+            return;
+        }
+
+        renderInProgressTasks(filterTasks, 'searchFunctionality');
+        renderCompletedTasks(filterTasks, 'searchFunctionality');
+        return;
+
+
+    } else {
+        const updateFilterTasks = filterTasks.filter((task) => {
+            return selectedFilters.includes(task.priority);
+        })
+
+
+        if (updateFilterTasks.length === 0) {
+            inProgressTaskContainer.innerHTML = `<div class="noTask">No Results found</div>`
+            CompletedTaskContainer.innerHTML = `<div class="noTask">No Results found</div>`
+            totalInProgressTasks.textContent = 0;
+            return;
+        }
+
+        renderInProgressTasks(updateFilterTasks, 'searchFunctionality');
+        renderCompletedTasks(updateFilterTasks, 'searchFunctionality');
+        return;
+
+    }
+
 }

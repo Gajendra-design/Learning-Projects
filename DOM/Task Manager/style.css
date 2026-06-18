@@ -41,6 +41,7 @@
     --p-xl: 20px;
     --p-input: 12px 16px;
     --p-button: 16px 32px;
+    --p-filterBtn: 15px;
 
     /* border radius */
     --r-sm: 5px;
@@ -48,6 +49,7 @@
     --r-lg: 15px;
     --r-input: 8px;
     --r-button: 6px;
+    --r-filterBtn: 50%;
 
     /* font size */
     --font-sm: 8px;
@@ -96,10 +98,39 @@ input {
     border-radius: var(--r-input);
 }
 
-.searchBar {
+.filterOptionsContainer{
     display: flex;
-    gap: var(--gap-md);
+    gap: var(--gap-xl);
     align-items: center;
+}
+
+#filterBtn{
+    border-radius: var(--r-filterBtn);
+    padding: var(--p-filterBtn);
+    background-color: var(--bg-button);
+    cursor: pointer;
+}
+
+#filterForm{
+    display: flex;
+    align-items: center;
+    gap: var(--gap-xl);
+}
+
+.filterOptions{
+    display: none;
+    flex-direction: row;
+    align-items: center;
+    gap: var(--gap-md);
+}
+
+.filterOptions div{
+    display: flex;
+    flex-direction: row;
+}
+
+.show{
+    display: flex !important; 
 }
 
 .navRight{
@@ -268,7 +299,7 @@ section {
     z-index: 2;
 }
 
-form{
+.formContainer form{
     display: flex;
     flex-direction: column;
     gap: var(--gap-xl);
