@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Task Manager</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 
 <body>
@@ -14,32 +14,37 @@
         <nav>
             <h1>Task Manager</h1>
 
-
             <form id="filterForm">
-                <input type="text" placeholder="Search here...." id="searchInput">
-                <button id="SearchBtn">Search</button>
+                <div class="search-box">
+                    <input type="text" placeholder="Search here...." id="searchInput">
+                    <button id="SearchBtn" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+                </div>
 
                 <span id="filterBtn"><i class="fa-solid fa-filter"></i></span>
 
                 <div class="filterOptions">
                     <div>
-                        <label for="imidiateFilter">Immediate:</label>
                         <input type="checkbox" name="filter" value="imidiate" id="imidiateFilter">
+                        <label for="imidiateFilter">Immediate</label>
                     </div>
                     <div>
-                        <label for="importantFilter">Important:</label>
                         <input type="checkbox" name="filter" value="important" id="importantFilter">
+                        <label for="importantFilter">Important</label>
                     </div>
                     <div>
-                        <label for="delaybleFilter">Delayable:</label>
                         <input type="checkbox" name="filter" value="delayble" id="delaybleFilter">
+                        <label for="delaybleFilter">Delayable</label>
                     </div>
                 </div>
             </form>
 
             <div class="navRight">
-                <button id="createBtn" class="createBtn">Create Task</button>
-                <button id="clearAll" class="clearAll">Clear All</button>
+                <button id="createBtn" class="createBtn">
+                    <i class="fa-solid fa-square-plus"></i> <span>Create Task</span>
+                </button>
+                <button id="clearAll" class="clearAll">
+                    <i class="fa-solid fa-trash-can"></i> <span>Clear All</span>
+                </button>
             </div>
         </nav>
 
@@ -47,20 +52,17 @@
             <div class="task-container">
                 <div class="task-container-header">
                     <h2>In Progress</h2>
-                    <span id="totalInProgressTasks"></span>
+                    <span id="totalInProgressTasks">0</span>
                 </div>
                 <div id="inProgress"></div>
             </div>
 
-
             <div class="task-container dropZone">
-
                 <div class="task-container-header">
                     <h2>Completed</h2>
-                    <span id="totalCompletedTasks"></span>
+                    <span id="totalCompletedTasks">0</span>
                 </div>
                 <div id="Completed"></div>
-            </div>
             </div>
         </section>
 
@@ -72,7 +74,7 @@
                 </div>
 
                 <div>
-                    <label for="description">Titile Description</label>
+                    <label for="description">Title Description</label>
                     <input name="description" id="description" type="text" placeholder="Task Description" required>
                 </div>
 
@@ -80,7 +82,7 @@
                     <label for="priorityOptions">Task Priority</label>
                     <select name="priorityOptions" id="priorityOption" required>
                         <option value="" selected disabled>Task Priority</option>
-                        <option value="imidiate">Imidiate</option>
+                        <option value="imidiate">Immediate</option>
                         <option value="important">Important</option>
                         <option value="delayble">Delayable</option>
                     </select>

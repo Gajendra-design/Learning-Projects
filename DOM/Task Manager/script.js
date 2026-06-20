@@ -130,23 +130,28 @@ function renderInProgressTasks(tasks, whoCalling) {
         if (task.status === "inComplete") {
             count++;
             inProgressTaskContainer.innerHTML += `
-            <div class="task" id = ${task.id}>
-                    <div class="taskHeader">
-                        <h3>${task.title}</h3>
-                        <span id="priority" class="${task.priority}">${task.priority}</span>
-                    </div>
-                    <div class="taskBody">
-                        <p>${task.description}</p>
-                    </div>
-                    <div class="taskFooter">
-                        <button id="done" class="done" onclick="taskDone('${task.id}')">Done</button>
-                        <div class="editdel">
-                            <button id="edit" class="edit" onclick="updateTask('${task.id}')">Edit</button>
-                            <button id="del" class="del" onclick="deleteTask('${task.id}')">Delete</button>
+                    <div class="task" id="${task.id}">
+                        <div class="taskHeader">
+                            <h3>${task.title}</h3>
+                            <span id="priority" class="${task.priority}">${task.priority}</span>
                         </div>
-                    </div>
-                </div>
-        `
+                        <div class="taskBody">
+                            <p>${task.description}</p>
+                        </div>
+                        <div class="taskFooter">
+                            <button class="done" onclick="taskDone('${task.id}')">
+                                <i class="fa-solid fa-circle-check"></i> Done
+                            </button>
+                            <div class="editdel">
+                                <button class="edit" onclick="updateTask('${task.id}')">
+                                    <i class="fa-solid fa-pen-to-square"></i> Edit
+                                </button>
+                                <button class="del" onclick="deleteTask('${task.id}')">
+                                    <i class="fa-solid fa-trash"></i> Delete
+                                </button>
+                            </div>
+                        </div>
+                    </div>`;
         }
     })
 
@@ -181,8 +186,8 @@ function renderCompletedTasks(tasks, whoCalling) {
 
         if (task.status === "completed") {
             count++;
-            CompletedTaskContainer.innerHTML += `
-                <div class="task">
+           CompletedTaskContainer.innerHTML += `
+                    <div class="task">
                         <div class="taskHeader">
                             <h3>${task.title}</h3>
                             <span id="priority" class="${task.priority}">${task.priority}</span>
@@ -190,13 +195,13 @@ function renderCompletedTasks(tasks, whoCalling) {
                         <div class="taskBody">
                             <p>${task.description}</p>
                         </div>
-
                         <div class="taskFooter">
-                            <div class="completed">Completed</div>
-                            <button id="del" class="del" onclick="deleteTask('${task.id}')">Delete</button>
+                            <div class="completed"><i class="fa-solid fa-circle-check"></i> Completed</div>
+                            <button class="del" onclick="deleteTask('${task.id}')">
+                                <i class="fa-solid fa-trash"></i> Delete
+                            </button>
                         </div>
-                    </div>
-            `
+                    </div>`;
         }
     })
     totalCompletedTasks.textContent = count;
@@ -205,7 +210,7 @@ function renderCompletedTasks(tasks, whoCalling) {
         CompletedTaskContainer.innerHTML = `<div class="noTask" id="freshStart">0 Task Completed. Be First to Create and Complete one....</div>`;
     }
 
-    if ((count === 0) && (whoCalling === 'searchFunctionality')) {        
+    if ((count === 0) && (whoCalling === 'searchFunctionality')) {
         CompletedTaskContainer.innerHTML = `<div class="noTask">No Results found</div>`
     }
 
@@ -229,7 +234,7 @@ function deleteTask(id) {
 // inline fucntion
 function updateTask(id) {
     updateIndex = Number(id);
-    submitBtn.textContent = "Update Task";
+    submitBtn.innerHTML = `<i class="fa-solid fa-pen-to-square"></i> Update Task`;
     submitBtn.style.backgroundColor = "var(--bg-update)"
 
     const index = tasks.findIndex(task => Number(id) === task.id);
@@ -266,8 +271,8 @@ function searchAndRendre() {
     //UIFix: Reverts back to "0 tasks completed..." safely
     if (searchInputValues === "" && selectedFilters.length === 0) {
         renderInProgressTasks(tasks);
-        renderCompletedTasks(tasks);  
-        return; 
+        renderCompletedTasks(tasks);
+        return;
     }
 
     const filterTasks = tasks.filter((task) => {
