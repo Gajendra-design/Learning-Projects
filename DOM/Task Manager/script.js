@@ -152,9 +152,19 @@ function renderInProgressTasks(tasks, whoCalling) {
     })
 
     totalInProgressTasks.textContent = count;
+    if (count === 0) {
+        // If the global store is empty, it's a fresh start
+        if (tasks.length === 0) {
+            inProgressTaskContainer.innerHTML = `<div class="noTask">0 In Progress Tasks...</div>`;
+        } else {
+            // If global store has items, but this filtered array has 0, it means no search results matches
+            inProgressTaskContainer.innerHTML = `<div class="noTask">No Results found</div>`;
+        }
+    }
 
     if (count === 0) {
         inProgressTaskContainer.innerHTML = `<div class="noTask" id="freshStart">0 In Progress Tasks. Be First to creat one...</div>`;
+        return
     }
 
     if ((count === 0) && (whoCalling === 'searchFunctionality')) {
@@ -244,8 +254,9 @@ function taskDone(id) {
     renderCompletedTasks(tasks);
 }
 
+// search and render function
 function searchAndRendre() {
-    if(tasks.length === 0){
+    if (tasks.length === 0) {
         return;
     }
 
@@ -253,6 +264,13 @@ function searchAndRendre() {
 
     const filterDataOptions = new FormData(filterForm);
     const selectedFilters = filterDataOptions.getAll('filter');
+
+    //UIFix: Reverts back to "0 tasks completed..." safely
+    if (searchInputValues === "" && selectedFilters.length === 0) {
+        renderInProgressTasks(tasks);
+        renderCompletedTasks(tasks);  
+        return; 
+    }
 
     const filterTasks = tasks.filter((task) => {
         return (
