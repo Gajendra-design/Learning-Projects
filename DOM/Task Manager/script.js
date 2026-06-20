@@ -91,7 +91,6 @@ addUpdateForm.addEventListener('submit', (e) => {
         updateIndex = null;
     }
 
-    console.log(tasks);
     renderInProgressTasks(tasks);
 
     formContainer.style.display = "none";
@@ -206,9 +205,7 @@ function renderCompletedTasks(tasks, whoCalling) {
         CompletedTaskContainer.innerHTML = `<div class="noTask" id="freshStart">0 Task Completed. Be First to Create and Complete one....</div>`;
     }
 
-    if ((count === 0) && (whoCalling === 'searchFunctionality')) {
-        console.log('enter');
-        
+    if ((count === 0) && (whoCalling === 'searchFunctionality')) {        
         CompletedTaskContainer.innerHTML = `<div class="noTask">No Results found</div>`
     }
 
@@ -280,8 +277,6 @@ function searchAndRendre() {
             task.priority.toLowerCase().includes(searchInputValues)
         );
     })
-
-    // console.log(filterTasks);
 
 
     if (selectedFilters.length === 0) {
