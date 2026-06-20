@@ -164,7 +164,6 @@ function renderInProgressTasks(tasks, whoCalling) {
 
     if (count === 0) {
         inProgressTaskContainer.innerHTML = `<div class="noTask" id="freshStart">0 In Progress Tasks. Be First to creat one...</div>`;
-        return
     }
 
     if ((count === 0) && (whoCalling === 'searchFunctionality')) {
@@ -208,6 +207,8 @@ function renderCompletedTasks(tasks, whoCalling) {
     }
 
     if ((count === 0) && (whoCalling === 'searchFunctionality')) {
+        console.log('enter');
+        
         CompletedTaskContainer.innerHTML = `<div class="noTask">No Results found</div>`
     }
 
