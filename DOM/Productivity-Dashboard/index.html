@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en" class="">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Productivity Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Smooth transitions for theme switching and dynamic backgrounds */
+        body { transition: background 0.5s ease, color 0.3s ease; }
+        .feature-view { display: none; }
+        .feature-view.active { display: block; }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-slate-100 to-slate-200 dark:from-slate-900 dark:to-zinc-900 text-slate-800 dark:text-slate-100 min-h-screen font-sans antialiased">
+
+    <header class="sticky top-0 z-50 backdrop-blur-md bg-white/70 dark:bg-slate-900/70 border-b border-slate-200 dark:border-slate-800 px-4 py-3 sm:px-6 flex flex-wrap justify-between items-center gap-4">
+        <div class="flex items-center gap-3">
+            <div class="bg-indigo-600 text-white p-2 rounded-xl shadow-md">
+                <i class="fa-solid fa-layer-group text-lg"></i>
+            </div>
+            <div>
+                <h1 class="text-lg font-bold tracking-tight">FocusHub</h1>
+                <p id="live-clock" class="text-xs text-slate-500 dark:text-slate-400 font-medium">Loading time...</p>
+            </div>
+        </div>
+
+        <div class="flex items-center gap-4 ml-auto sm:ml-0">
+            <div id="weather-widget" class="flex items-center gap-2 bg-slate-200/60 dark:bg-slate-800/60 px-3 py-1.5 rounded-full text-xs font-medium">
+                <i id="weather-icon" class="fa-solid fa-cloud-sun text-indigo-500"></i>
+                <span id="weather-temp">--°C</span>
+                <span id="weather-desc" class="hidden md:inline text-slate-500 dark:text-slate-400">| Fetching weather...</span>
+            </div>
+
+            <button id="theme-toggle" class="p-2.5 rounded-full bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-amber-400 hover:scale-105 transition-transform" title="Toggle Theme">
+                <i class="fa-solid fa-moon dark:hidden"></i>
+                <i class="fa-solid fa-sun hidden dark:block"></i>
+            </button>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto p-4 sm:p-6 lg:p-8">
+        
+        <section id="dashboard-home" class="space-y-8 animate-fade-in">
+            <div class="bg-white dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/50 rounded-2xl p-6 shadow-sm flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+                <div>
+                    <h2 class="text-2xl font-bold mb-1">Welcome Back!</h2>
+                    <p class="text-sm text-slate-500 dark:text-slate-400">Here's your productivity overview for today.</p>
+                </div>
+                <div class="w-full md:w-64 space-y-2">
+                    <div class="flex justify-between text-xs font-semibold">
+                        <span>Daily Goals Progress</span>
+                        <span id="goals-progress-text">0 of 0 completed</span>
+                    </div>
+                    <div class="w-full bg-slate-200 dark:bg-slate-700 h-2 rounded-full overflow-hidden">
+                        <div id="goals-progress-bar" class="bg-indigo-600 h-full transition-all duration-500" style="width: 0%"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div data-target="view-todo" class="feature-card bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-6 rounded-2xl shadow-sm hover:shadow-xl hover:border-indigo-500 dark:hover:border-indigo-400 cursor-pointer transition-all group">
+                    <div class="bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 w-12 h-12 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                        <i class="fa-solid fa-list-check text-xl"></i>
+                    </div>
+                    <h3 class="text-lg font-bold mb-1">Todo List</h3>
+                    <p class="text-sm text-slate-500 dark:text-slate-400">Manage your daily tasks, priorities, and deadlines.</p>
+                </div>
+
+                <div data-target="view-planner" class="feature-card bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-6 rounded-2xl shadow-sm hover:shadow-xl hover:border-indigo-500 dark:hover:border-indigo-400 cursor-pointer transition-all group">
+                    <div class="bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 w-12 h-12 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                        <i class="fa-solid fa-calendar-day text-xl"></i>
+                    </div>
+                    <h3 class="text-lg font-bold mb-1">Daily Planner</h3>
+                    <p class="text-sm text-slate-500 dark:text-slate-400">Structure your day down into dedicated hourly slots.</p>
+                </div>
+
+                <div data-target="view-pomodoro" class="feature-card bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-6 rounded-2xl shadow-sm hover:shadow-xl hover:border-indigo-500 dark:hover:border-indigo-400 cursor-pointer transition-all group">
+                    <div class="bg-rose-100 dark:bg-rose-900/30 text-rose-600 dark:text-rose-400 w-12 h-12 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                        <i class="fa-solid fa-stopwatch text-xl"></i>
+                    </div>
+                    <h3 class="text-lg font-bold mb-1">Pomodoro Timer</h3>
+                    <p class="text-sm text-slate-500 dark:text-slate-400">Use focused sprint intervals to amplify focus.</p>
+                </div>
+
+                <div data-target="view-goals" class="feature-card bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-6 rounded-2xl shadow-sm hover:shadow-xl hover:border-indigo-500 dark:hover:border-indigo-400 cursor-pointer transition-all group">
+                    <div class="bg-amber-100 dark:bg-amber-900/30 text-amber-600 dark:text-amber-400 w-12 h-12 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                        <i class="fa-solid fa-bullseye text-xl"></i>
+                    </div>
+                    <h3 class="text-lg font-bold mb-1">Daily Goals</h3>
+                    <p class="text-sm text-slate-500 dark:text-slate-400">Set and hit clear high-level targets for today.</p>
+                </div>
+            </div>
+
+            <div class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl p-6 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-6">
+                <div class="space-y-2 max-w-2xl text-center sm:text-left">
+                    <i class="fa-solid fa-quote-left text-3xl text-indigo-200 dark:text-slate-700"></i>
+                    <p id="quote-text" class="text-lg italic font-medium">"The only way to do great work is to love what you do."</p>
+                    <p id="quote-author" class="text-sm text-slate-500 dark:text-slate-400 font-semibold">— Steve Jobs</p>
+                </div>
+                <button id="refresh-quote" class="whitespace-nowrap px-4 py-2 rounded-xl bg-slate-100 dark:bg-slate-700 hover:bg-indigo-600 hover:text-white dark:hover:bg-indigo-500 transition-colors text-sm font-medium flex items-center gap-2 border border-slate-200 dark:border-slate-600">
+                    <i class="fa-solid fa-arrows-rotate"></i> New Quote
+                </button>
+            </div>
+        </section>
+
+        <section id="view-todo" class="feature-view max-w-3xl mx-auto animate-fade-in">
+            <button class="back-btn mb-6 flex items-center gap-2 text-sm font-medium text-slate-500 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">
+                <i class="fa-solid fa-arrow-left"></i> Back to Dashboard
+            </button>
+            <div class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl p-6 shadow-lg">
+                <h2 class="text-xl font-bold mb-4 flex items-center gap-2">
+                    <i class="fa-solid fa-list-check text-emerald-500"></i> Todo List
+                </h2>
+                <form id="todo-form" class="flex gap-2 mb-6">
+                    <input type="text" id="todo-input" placeholder="What needs to be done?" required class="flex-1 px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm">
+                    <button type="submit" class="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white font-medium rounded-xl text-sm transition-colors flex items-center gap-1.5 shadow-sm shadow-indigo-500/20">
+                        <i class="fa-solid fa-plus"></i> Add
+                    </button>
+                </form>
+                <ul id="todo-list" class="divide-y divide-slate-100 dark:divide-slate-700 max-h-[450px] overflow-y-auto pr-1">
+                    </ul>
+            </div>
+        </section>
+
+        <section id="view-planner" class="feature-view max-w-3xl mx-auto animate-fade-in">
+            <button class="back-btn mb-6 flex items-center gap-2 text-sm font-medium text-slate-500 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">
+                <i class="fa-solid fa-arrow-left"></i> Back to Dashboard
+            </button>
+            <div class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl p-6 shadow-lg">
+                <h2 class="text-xl font-bold mb-4 flex items-center gap-2">
+                    <i class="fa-solid fa-calendar-day text-blue-500"></i> Daily Planner
+                </h2>
+                <div id="planner-slots" class="space-y-3 max-h-[500px] overflow-y-auto pr-1">
+                    </div>
+            </div>
+        </section>
+
+        <section id="view-pomodoro" class="feature-view max-w-md mx-auto animate-fade-in">
+            <button class="back-btn mb-6 flex items-center gap-2 text-sm font-medium text-slate-500 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">
+                <i class="fa-solid fa-arrow-left"></i> Back to Dashboard
+            </button>
+            <div class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl p-8 shadow-lg text-center">
+                <span id="pomodoro-session" class="inline-block px-3 py-1 rounded-full text-xs font-bold tracking-wide uppercase bg-rose-100 dark:bg-rose-900/30 text-rose-600 dark:text-rose-400 mb-6">Work Session</span>
+                <div id="pomodoro-display" class="text-6xl sm:text-7xl font-extrabold font-mono tracking-tight my-4 select-none">25:00</div>
+                <div class="flex justify-center gap-3 mt-8">
+                    <button id="pomodoro-start" class="px-6 py-3 bg-emerald-600 hover:bg-emerald-500 text-white font-medium rounded-xl text-sm transition-colors flex items-center gap-2 shadow-md">
+                        <i class="fa-solid fa-play"></i> Start
+                    </button>
+                    <button id="pomodoro-pause" class="px-6 py-3 bg-amber-500 hover:bg-amber-400 text-white font-medium rounded-xl text-sm transition-colors flex items-center gap-2 shadow-md hidden">
+                        <i class="fa-solid fa-pause"></i> Pause
+                    </button>
+                    <button id="pomodoro-reset" class="px-6 py-3 bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 text-slate-700 dark:text-slate-200 font-medium rounded-xl text-sm transition-colors flex items-center gap-2">
+                        <i class="fa-solid fa-arrow-rotate-left"></i> Reset
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <section id="view-goals" class="feature-view max-w-3xl mx-auto animate-fade-in">
+            <button class="back-btn mb-6 flex items-center gap-2 text-sm font-medium text-slate-500 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">
+                <i class="fa-solid fa-arrow-left"></i> Back to Dashboard
+            </button>
+            <div class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl p-6 shadow-lg">
+                <h2 class="text-xl font-bold mb-4 flex items-center gap-2">
+                    <i class="fa-solid fa-bullseye text-amber-500"></i> Daily Goals
+                </h2>
+                <form id="goal-form" class="flex gap-2 mb-6">
+                    <input type="text" id="goal-input" placeholder="Set a focus goal for today..." required class="flex-1 px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm">
+                    <button type="submit" class="px-5 py-2.5 bg-amber-500 hover:bg-amber-400 text-white font-medium rounded-xl text-sm transition-colors flex items-center gap-1.5 shadow-sm">
+                        <i class="fa-solid fa-plus"></i> Track Goal
+                    </button>
+                </form>
+                <div id="goals-list" class="space-y-2.5 max-h-[450px] overflow-y-auto">
+                    </div>
+            </div>
+        </section>
+
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
