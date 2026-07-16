@@ -1,1 +1,19 @@
-@import "tailwindcss"
+@import "tailwindcss";
+
+/* Target the utilities and apply globally to anything with overflow scrolling */
+.no-scrollbar,
+aside,
+main,
+.overflow-y-auto {
+  -ms-overflow-style: none !important;  /* IE and Edge */
+  scrollbar-width: none !important;     /* Firefox */
+}
+
+.no-scrollbar::-webkit-scrollbar,
+aside::-webkit-scrollbar,
+main::-webkit-scrollbar,
+.overflow-y-auto::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
