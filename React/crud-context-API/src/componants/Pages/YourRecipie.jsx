@@ -1,67 +1,83 @@
-import React from 'react'
+import React, { useContext } from 'react'
+import { UserStore } from '../../context/UserStore';
+import { FunctionStore } from '../../context/FunctionalStore';
+import YourRecipieCard from '../Recipie/YourRecipieCard';
 
 const YourRecipie = () => {
-  const authorRecipes = [
-    { id: 1, title: 'Classic Margherita Pizza', img: 'https://images.unsplash.com/photo-1604382354936-07c5d9983bd3?w=600&q=80', status: 'Live', saves: 842 },
-    { id: 2, title: 'Artisanal Double-Baked Croissant', img: 'https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=600&q=80', status: 'In Review', saves: 0 }
-  ]
+
+  const { currentUser, setIsCartOpen, setIsYourRecipieOpen } = useContext(UserStore)
+  const userRecipies = currentUser.userRecipies;
+
+  const { toggleFullPageRecipieFormOpen } = useContext(FunctionStore)
 
   return (
-    <div className='w-full space-y-6'>
+    <div className='w-full space-y-6 bg-gray-950 min-h-full'>
       {/* Feed Header */}
       <div className='flex justify-between items-center border-b border-gray-900 pb-5'>
         <div>
           <h1 className='text-2xl font-black tracking-wide text-gray-100'>Your Authored Recipes</h1>
           <p className='text-xs text-gray-500 mt-0.5'>Modify your catalog entries, readouts, or inspect publication statuses.</p>
         </div>
+
+        {/* Total Contributed Items Pill */}
+        <span className='text-xs bg-red-500/10 text-red-400 px-3 py-1.5 border border-red-500/20 rounded-full font-medium'>
+          {userRecipies.length} Contributions
+        </span>
       </div>
 
-      {/* Responsive Grid Architecture */}
-      <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6'>
-        {authorRecipes.map((recipe) => (
-          <div 
-            key={recipe.id} 
-            className='group bg-gray-900/20 border border-gray-900 rounded-2xl overflow-hidden flex flex-col hover:border-gray-800/80 transition-all duration-300 shadow-xl'
-          >
-            {/* Visual Media Container Block */}
-            <div className='h-44 w-full overflow-hidden bg-gray-950 relative'>
-              <img src={recipe.img} alt={recipe.title} className='w-full h-full object-cover group-hover:scale-105 transition-transform duration-500' />
-              
-              {/* Absolute Condition Badge Mapping */}
-              <div className={`absolute top-3 right-3 text-[10px] font-extrabold px-2.5 py-1 rounded-md border tracking-wider uppercase backdrop-blur-md ${
-                recipe.status === 'Live' 
-                  ? 'bg-emerald-950/80 border-emerald-900/50 text-emerald-400' 
-                  : 'bg-amber-950/80 border-amber-900/50 text-amber-400'
-              }`}>
-                {recipe.status}
-              </div>
-            </div>
-
-            {/* Typography Content Elements */}
-            <div className='p-5 flex flex-col flex-1 justify-between gap-4'>
-              <div>
-                <h3 className='font-bold text-md text-gray-200 tracking-wide line-clamp-1 group-hover:text-red-400 transition-colors'>
-                  {recipe.title}
-                </h3>
-                <p className='text-xs text-gray-500 mt-1'>
-                  Bookmarks gathered: <span className='text-gray-400 font-bold'>{recipe.saves} users</span>
-                </p>
-              </div>
-
-              {/* Modify Matrix Trigger Rows */}
-              <div className='flex items-center gap-2 pt-3 border-t border-gray-900'>
-                <button type='button' className='flex-1 text-[11px] py-2.5 px-3 font-bold bg-gray-950 text-gray-400 border border-gray-900 hover:border-gray-800 rounded-xl hover:text-white transition-all cursor-pointer tracking-wider uppercase'>
-                  Edit Blueprint
-                </button>
-                <button type='button' className='px-3 py-2.5 text-xs bg-red-950/20 border border-red-900/20 text-red-400 hover:bg-red-600 hover:text-white rounded-xl transition-all cursor-pointer'>
-                  ✕
-                </button>
-              </div>
-            </div>
-
+      {/* Conditional Layer: Check if user has zero recipes */}
+      {userRecipies.length === 0 ? (
+        <div className='flex flex-col items-center justify-center border border-dashed border-gray-900 rounded-2xl py-16 px-6 text-center bg-gray-950 max-w-xl mx-auto my-12 space-y-5'>
+          <div className='h-14 w-14 rounded-2xl bg-gradient-to-br from-red-500/10 to-orange-500/10 border border-red-500/20 flex items-center justify-center text-2xl text-red-400 select-none shadow-md shadow-red-950/20 animate-pulse'>
+            🍽️
           </div>
-        ))}
-      </div>
+          <div className='space-y-1.5'>
+            <h3 className='text-base font-bold text-gray-200 tracking-wide'>No Created Recipes Found</h3>
+            <p className='text-xs text-gray-500 max-w-sm mx-auto leading-relaxed'>
+              Your personal kitchen studio is currently empty. Start drafting your very first culinary masterpiece right now!
+            </p>
+          </div>
+          
+          {/* Visual Trigger Button to launch creation form flow */}
+          <button
+            type='button'
+            onClick={toggleFullPageRecipieFormOpen}
+            className='px-5 py-2.5 text-xs font-bold bg-gradient-to-r from-red-600 to-red-700 hover:from-red-500 hover:to-red-600 text-white rounded-xl transition-all active:scale-[0.98] shadow-lg shadow-red-950/40 tracking-wider uppercase cursor-pointer focus:outline-none focus:ring-2 focus:ring-red-500/40'
+          >
+            + Create A Recipe
+          </button>
+        </div>
+      ) : (
+        /* Responsive Grid Architecture */
+        <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6'>
+          
+          {/* Inline Action Card Button Trigger */}
+          <button
+            type="button"
+            onClick={toggleFullPageRecipieFormOpen}
+            className='group min-h-[350px] border-2 border-dashed border-gray-900 rounded-2xl flex flex-col items-center justify-center gap-3 p-6 text-center hover:border-red-500/40 bg-gray-900/5 hover:bg-red-500/[0.01] transition-all duration-300 cursor-pointer focus:outline-none'
+          >
+            <div className='h-12 w-12 rounded-xl bg-gray-900 border border-gray-800 flex items-center justify-center text-lg text-gray-400 group-hover:text-red-400 group-hover:border-red-500/20 group-hover:bg-red-950/20 transition-all duration-300 group-hover:scale-105 shadow-md shadow-black/40'>
+              ➕
+            </div>
+            <div className='space-y-1'>
+              <span className='text-sm font-bold text-gray-300 group-hover:text-red-400 transition-colors tracking-wide'>
+                Add Another Blueprint
+              </span>
+              <p className='text-[11px] text-gray-500 max-w-[200px] leading-relaxed mx-auto'>
+                Expand your collection by launching the composition matrix tool.
+              </p>
+            </div>
+          </button>
+
+          {/* Active Recipes Map Stream */}
+          {userRecipies.map((recipe) => {
+            return (
+              <YourRecipieCard key={currentUser.userName.concat(recipe.price, recipe.recipeName)} recipe={recipe} />
+            )
+          })}
+        </div>
+      )}
     </div>
   )
 }

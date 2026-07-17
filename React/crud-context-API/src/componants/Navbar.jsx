@@ -3,7 +3,7 @@ import { UserStore } from '../context/userStore';
 import { FunctionStore } from '../context/FunctionalStore';
 
 const Navbar = () => {
-  const { isLoggedIn,setIsCartOpen,setIsYourRecipieOpen } = useContext(UserStore);
+  const { isLoggedIn,setIsCartOpen,setIsYourRecipieOpen,setIsProfileOpen } = useContext(UserStore);
   const { handelLogOut } = useContext(FunctionStore);
 
   return (
@@ -23,18 +23,22 @@ const Navbar = () => {
             <span onClick={()=>{
               setIsCartOpen(false);
               setIsYourRecipieOpen(false);
+              setIsProfileOpen(false);
             }} className='font-medium text-sm tracking-wide text-gray-400 hover:text-red-500 cursor-pointer transition-colors relative py-1 after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-red-500 hover:after:w-full after:transition-all after:duration-300'>
               Home
             </span>
             <span onClick={()=>{
               setIsCartOpen(true);
               setIsYourRecipieOpen(false);
+              setIsProfileOpen(false);
+
               }} className='font-medium text-sm tracking-wide text-gray-400 hover:text-red-500 cursor-pointer transition-colors relative py-1 after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-red-500 hover:after:w-full after:transition-all after:duration-300'>
               Cart
             </span>
             <span onClick={()=>{
               setIsCartOpen(false);
               setIsYourRecipieOpen(true);
+              setIsProfileOpen(false);
               }} className='font-medium text-sm tracking-wide text-gray-400 hover:text-red-500 cursor-pointer transition-colors relative py-1 after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-red-500 hover:after:w-full after:transition-all after:duration-300'>
               Your Recipes
             </span>
@@ -45,7 +49,11 @@ const Navbar = () => {
         {isLoggedIn ? (
           <div className='flex items-center gap-4'>
             {/* Styled Profile Button */}
-            <button className='px-4 py-2 text-sm font-medium text-gray-300 hover:text-white border border-gray-800 hover:border-gray-700 bg-gray-900/50 hover:bg-gray-900 rounded-xl cursor-pointer transition-all active:scale-98 focus:outline-none focus:ring-2 focus:ring-gray-800'>
+            <button onClick={() => {
+              setIsProfileOpen(true)
+              setIsCartOpen(false);
+              setIsYourRecipieOpen(false);
+              }} className='px-4 py-2 text-sm font-medium text-gray-300 hover:text-white border border-gray-800 hover:border-gray-700 bg-gray-900/50 hover:bg-gray-900 rounded-xl cursor-pointer transition-all active:scale-98 focus:outline-none focus:ring-2 focus:ring-gray-800'>
               Profile
             </button>
             
