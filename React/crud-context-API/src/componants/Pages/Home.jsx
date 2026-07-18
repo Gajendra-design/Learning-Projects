@@ -55,6 +55,7 @@ const Home = () => {
                     key={`${user.email}-${recipie.recipeName}-${idx}`} 
                     recipie={recipie} 
                     userName = {user.userName}
+                    email = {user.email}
                   />
                 )
               })

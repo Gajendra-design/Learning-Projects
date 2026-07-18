@@ -51,8 +51,6 @@ const Navbar = () => {
             {/* Styled Profile Button */}
             <button onClick={() => {
               setIsProfileOpen(true)
-              setIsCartOpen(false);
-              setIsYourRecipieOpen(false);
               }} className='px-4 py-2 text-sm font-medium text-gray-300 hover:text-white border border-gray-800 hover:border-gray-700 bg-gray-900/50 hover:bg-gray-900 rounded-xl cursor-pointer transition-all active:scale-98 focus:outline-none focus:ring-2 focus:ring-gray-800'>
               Profile
             </button>

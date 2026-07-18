@@ -1,10 +1,10 @@
-import React from 'react'
+import React, { useContext } from 'react'
+import { UserStore } from '../../context/userStore'
+import CartRecipiecard from '../Recipie/CartRecipiecard'
 
 const Cart = () => {
-  const activeCartArray = [
-    { id: 1, title: 'Smoked Garlic Ribeye Steak', img: 'https://images.unsplash.com/photo-1544025162-d76694265947?w=600&q=80', price: 24.99, qty: 1 },
-    { id: 2, title: 'Zesty Avocado Citrus Salad', img: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=600&q=80', price: 12.50, qty: 2 }
-  ]
+  const { currentUser, setIsCartOpen } = useContext(UserStore)
+  const cartItems = currentUser?.cartItems || [];
 
   return (
     <div className='w-full space-y-6'>
@@ -14,51 +14,45 @@ const Cart = () => {
           <h1 className='text-2xl font-black tracking-wide text-gray-100'>Your Selection Basket</h1>
           <p className='text-xs text-gray-500 mt-0.5'>Manage selected items, quantities, and recipe materials.</p>
         </div>
+
+        {/* Total Selection Items Count Pill */}
+        {cartItems.length > 0 && (
+          <span className='text-xs bg-orange-500/10 text-orange-400 px-3 py-1.5 border border-orange-500/20 rounded-full font-medium'>
+            {cartItems.length} Selected {cartItems.length === 1 ? 'Item' : 'Items'}
+          </span>
+        )}
       </div>
 
-      {/* Row Architecture */}
-      <div className='flex flex-col gap-4'>
-        {activeCartArray.map((item) => (
-          <div 
-            key={item.id} 
-            className='flex flex-col sm:flex-row items-center justify-between gap-4 p-4 bg-gray-900/20 border border-gray-900 rounded-2xl group hover:border-gray-800/80 transition-all duration-300'
-          >
-            {/* Left Media Block */}
-            <div className='flex items-center gap-4 w-full sm:w-auto'>
-              <div className='h-16 w-16 rounded-xl overflow-hidden bg-gray-950 shrink-0 border border-gray-800'>
-                <img src={item.img} alt={item.title} className='w-full h-full object-cover' />
-              </div>
-              <div>
-                <h3 className='font-bold text-sm text-gray-200 group-hover:text-red-400 transition-colors tracking-wide line-clamp-1'>
-                  {item.title}
-                </h3>
-                <p className='text-xs font-bold text-red-500/80 mt-0.5'>${item.price.toFixed(2)} each</p>
-              </div>
-            </div>
-
-            {/* Right Interactive Controllers Row */}
-            <div className='flex items-center justify-between sm:justify-end gap-6 w-full sm:w-auto border-t sm:border-t-0 border-gray-900 pt-3 sm:pt-0'>
-              {/* Fake Selector Pill */}
-              <div className='flex items-center bg-gray-950 border border-gray-800 rounded-xl px-2 py-1'>
-                <button type='button' className='px-2 py-1 text-gray-500 hover:text-white transition-colors text-xs font-bold'>-</button>
-                <span className='px-3 text-xs font-bold text-gray-300'>{item.qty}</span>
-                <button type='button' className='px-2 py-1 text-gray-500 hover:text-white transition-colors text-xs font-bold'>+</button>
-              </div>
-
-              {/* Total Calculation Tag & Trash Shell */}
-              <div className='flex items-center gap-4'>
-                <span className='text-sm font-bold text-gray-200 min-w-[60px] text-right'>
-                  ${(item.price * item.qty).toFixed(2)}
-                </span>
-                <button type='button' className='p-2.5 text-xs bg-red-950/20 border border-red-900/20 text-red-400 hover:bg-red-600 hover:text-white rounded-xl transition-all cursor-pointer'>
-                  ✕
-                </button>
-              </div>
-            </div>
-
+      {/* Conditional Layer: Check if user has zero items inside the selection basket */}
+      {cartItems.length === 0 ? (
+        <div className='flex flex-col items-center justify-center border border-dashed border-gray-900 rounded-2xl py-16 px-6 text-center bg-gray-950 max-w-xl mx-auto my-12 space-y-5 animate-in fade-in duration-200'>
+          <div className='h-14 w-14 rounded-2xl bg-gradient-to-br from-orange-500/10 to-red-500/10 border border-orange-500/20 flex items-center justify-center text-2xl text-orange-400 select-none shadow-md shadow-orange-950/20 animate-pulse'>
+            🛒
           </div>
-        ))}
-      </div>
+          <div className='space-y-1.5'>
+            <h3 className='text-base font-bold text-gray-200 tracking-wide'>Your Selection Basket is Empty</h3>
+            <p className='text-xs text-gray-500 max-w-sm mx-auto leading-relaxed'>
+              You haven't added any culinary blueprints to your setup catalog yet. Explore the feed to bookmark blueprints!
+            </p>
+          </div>
+          
+          {/* Action Trigger Button to return to exploration feed */}
+          <button
+            type='button'
+            onClick={() => setIsCartOpen(false)}
+            className='px-5 py-2.5 text-xs font-bold bg-gradient-to-r from-orange-600 to-orange-700 hover:from-orange-500 hover:to-orange-600 text-white rounded-xl transition-all active:scale-[0.98] shadow-lg shadow-orange-950/40 tracking-wider uppercase cursor-pointer focus:outline-none focus:ring-2 focus:ring-orange-500/40'
+          >
+            Explore Recipe Feed
+          </button>
+        </div>
+      ) : (
+        /* Row Architecture for active items stream */
+        <div className='flex flex-col gap-4 animate-in fade-in duration-200'>
+          {cartItems.map((item) => {
+             return <CartRecipiecard key={`${item.id}-${item.userName}`} item={item} />
+          })}
+        </div>
+      )}
     </div>
   )
 }
