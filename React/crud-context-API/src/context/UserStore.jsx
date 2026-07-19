@@ -17,10 +17,10 @@ export const UserStoreProvider = ({children})=>{
     const [isProfileOpen,setIsProfileOpen] = useState(false)
 
 
-    console.log('login status',isLoggedIn);
-    console.log('users',users);
-    console.log('current user',currentUser);
-    console.log('edit recipie data',editRecipeData);
+    // console.log('login status',isLoggedIn);
+    // console.log('users',users);
+    // console.log('current user',currentUser);
+    // console.log('edit recipie data',editRecipeData);
     
     
     
