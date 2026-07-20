@@ -9,7 +9,7 @@ export default function HeroSection() {
       <div className="max-w-7xl mx-auto space-y-6">
         
         {/* ================= HERO BANNER ================= */}
-        <div className="relative overflow-hidden rounded-2xl bg-slate-900 border border-slate-800 p-8 md:p-12 shadow-md">
+        <div className="relative overflow-hidden rounded-2xl bg-slate-900 border border-slate-800 p-8 md:p-12 shadow-md mb-10">
           
           {/* Subtle Background Grid */}
           <div 
