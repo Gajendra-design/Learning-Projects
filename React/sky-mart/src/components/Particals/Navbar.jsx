@@ -1,8 +1,14 @@
-import React from 'react';
+import React, { useContext, useState } from 'react';
 import { ShoppingCart, User, LogOut, Store } from 'lucide-react';
-import { NavLink } from 'react-router';
+import { Link, NavLink, useNavigate } from 'react-router';
+import { MyStore } from '../../Context/MyStore';
 
 export default function Navbar() {
+
+  // const navigate = useNavigate(); //we are not usingthis because by changing link we can't apply moving animation for the slidebar of cart insted we will use useState for toggling the view
+
+  const {setIsCartOpen,setIsProfileOpen} = useContext(MyStore);
+
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-3 py-4 flex items-center justify-between">
       {/* Brand / Logo */}
@@ -31,6 +37,7 @@ export default function Navbar() {
         {/* Profile Button */}
         <button
           title="profile"
+          onClick={()=>{setIsProfileOpen(true)}}
           aria-label="Profile"
           className="p-2.5 rounded-full bg-slate-800/80 hover:bg-slate-700 text-slate-200 hover:text-white transition-all duration-200 border border-slate-700/50 shadow-sm"
         >
@@ -40,6 +47,8 @@ export default function Navbar() {
         {/* Cart Button */}
         <button
           title="cart"
+          // onClick={() => navigate('/cart')}  //we are not usingthis because by changing link we can't apply moving animation for the slidebar of cart insted we will use useState for toggling the view
+          onClick={()=>{setIsCartOpen(true)}}
           aria-label="Cart"
           className="p-2.5 rounded-full bg-slate-800/80 hover:bg-slate-700 text-slate-200 hover:text-white transition-all duration-200 border border-slate-700/50 shadow-sm relative"
         >
