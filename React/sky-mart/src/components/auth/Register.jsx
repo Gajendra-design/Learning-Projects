@@ -1,10 +1,13 @@
 import React, { useContext, useState } from 'react';
 import { Store, User, Mail, Lock, Eye, EyeOff, ArrowRight, AlertCircle } from 'lucide-react';
-import { Link } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 import { useForm } from 'react-hook-form';
 import { MyStore } from '../../Context/MyStore';
 
 export default function Register() {
+
+  const navigate = useNavigate();  //now phale humne ye MyContect me use kiya tha handelRegister me buy kyu ki wo BrowserRouter me wrap nahi hai issliye hum waha useNvaigate nahi use kar sakthe hai
+
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
@@ -12,6 +15,7 @@ export default function Register() {
     register,
     handleSubmit,
     watch,  //ye ai se pata chala hai isme hum live confirem password chck kar sakthe hai
+    reset,
     formState: { errors },
   } = useForm({
     mode: 'onChange',
@@ -21,11 +25,11 @@ export default function Register() {
 
   // sabse phale watch se password field ki value lenge apan
   const passwordValue = watch('password');
-  
+
 
   return (
     <div className="w-full max-w-md bg-slate-900/90 border border-slate-800/80 rounded-3xl p-8 sm:p-10 shadow-2xl space-y-6">
-      
+
       {/* ================= FORM HEADER ================= */}
       <div className="space-y-2">
         <h2 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
@@ -37,8 +41,17 @@ export default function Register() {
       </div>
 
       {/* ================= FORM INPUTS ================= */}
-      <form onSubmit={handleSubmit(handelRegister)} className="space-y-4" noValidate>
-        
+      <form onSubmit={handleSubmit((data) => {
+        const register = handelRegister(data);
+        if (!register) {
+          reset()
+          navigate('/auth/register')
+        } else {
+          reset()
+          navigate('/')
+        }
+      })} className="space-y-4" noValidate>
+
         {/* Full Name Field */}
         <div className="space-y-1">
           <div className="relative">
@@ -58,11 +71,10 @@ export default function Register() {
               })}
               type="text"
               placeholder="Full name"
-              className={`w-full bg-slate-950/80 border rounded-xl pl-10 pr-4 py-3 text-xs sm:text-sm text-white placeholder-slate-500 focus:outline-none transition duration-200 ${
-                errors.fullName
+              className={`w-full bg-slate-950/80 border rounded-xl pl-10 pr-4 py-3 text-xs sm:text-sm text-white placeholder-slate-500 focus:outline-none transition duration-200 ${errors.fullName
                   ? 'border-rose-500/80 focus:border-rose-500'
                   : 'border-slate-800 focus:border-indigo-500'
-              }`}
+                }`}
             />
           </div>
           {errors.fullName && (
@@ -87,11 +99,10 @@ export default function Register() {
               })}
               type="email"
               placeholder="Email address"
-              className={`w-full bg-slate-950/80 border rounded-xl pl-10 pr-4 py-3 text-xs sm:text-sm text-white placeholder-slate-500 focus:outline-none transition duration-200 ${
-                errors.email
+              className={`w-full bg-slate-950/80 border rounded-xl pl-10 pr-4 py-3 text-xs sm:text-sm text-white placeholder-slate-500 focus:outline-none transition duration-200 ${errors.email
                   ? 'border-rose-500/80 focus:border-rose-500'
                   : 'border-slate-800 focus:border-indigo-500'
-              }`}
+                }`}
             />
           </div>
           {errors.email && (
@@ -120,11 +131,10 @@ export default function Register() {
               })}
               type={showPassword ? 'text' : 'password'}
               placeholder="Password"
-              className={`w-full bg-slate-950/80 border rounded-xl pl-10 pr-10 py-3 text-xs sm:text-sm text-white placeholder-slate-500 focus:outline-none transition duration-200 ${
-                errors.password
+              className={`w-full bg-slate-950/80 border rounded-xl pl-10 pr-10 py-3 text-xs sm:text-sm text-white placeholder-slate-500 focus:outline-none transition duration-200 ${errors.password
                   ? 'border-rose-500/80 focus:border-rose-500'
                   : 'border-slate-800 focus:border-indigo-500'
-              }`}
+                }`}
             />
             <button
               type="button"
@@ -155,11 +165,10 @@ export default function Register() {
               })}
               type={showConfirmPassword ? 'text' : 'password'}
               placeholder="Confirm password"
-              className={`w-full bg-slate-950/80 border rounded-xl pl-10 pr-10 py-3 text-xs sm:text-sm text-white placeholder-slate-500 focus:outline-none transition duration-200 ${
-                errors.confirmPassword
+              className={`w-full bg-slate-950/80 border rounded-xl pl-10 pr-10 py-3 text-xs sm:text-sm text-white placeholder-slate-500 focus:outline-none transition duration-200 ${errors.confirmPassword
                   ? 'border-rose-500/80 focus:border-rose-500'
                   : 'border-slate-800 focus:border-indigo-500'
-              }`}
+                }`}
             />
             <button
               type="button"

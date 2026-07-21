@@ -1,10 +1,12 @@
 import React, { useContext } from 'react';
 import { X, User, Settings, ShoppingBag, Heart, LogOut, ChevronRight, Shield } from 'lucide-react';
 import { MyStore } from '../../../Context/MyStore'; // Adjust to match your context file path
+import { useNavigate } from 'react-router';
 
 export default function ProfileSidebar() {
-  // Assuming you add an 'isProfileOpen' state to your MyStore context
-  const { isProfileOpen, setIsProfileOpen } = useContext(MyStore);
+
+  const navigate = useNavigate();
+  const { isProfileOpen, setIsProfileOpen,handelLogout } = useContext(MyStore);
 
   return (
     <div
@@ -108,7 +110,10 @@ export default function ProfileSidebar() {
 
         {/* ================= FOOTER / SIGN OUT ================= */}
         <div className="p-5 bg-slate-900 border-t border-slate-800">
-          <button className="w-full flex items-center justify-center gap-2 bg-slate-950 hover:bg-rose-950/30 text-slate-400 hover:text-rose-400 border border-slate-800 hover:border-rose-900/50 font-semibold py-3.5 rounded-xl transition duration-200 active:scale-[0.98]">
+          <button onClick={()=>{
+            handelLogout();
+            navigate('/auth');
+          }} className="w-full flex items-center justify-center gap-2 bg-slate-950 hover:bg-rose-950/30 text-slate-400 hover:text-rose-400 border border-slate-800 hover:border-rose-900/50 font-semibold py-3.5 rounded-xl transition duration-200 active:scale-[0.98]">
             <LogOut className="w-4 h-4" />
             <span>Sign Out</span>
           </button>

@@ -7,7 +7,7 @@ export default function Navbar() {
 
   // const navigate = useNavigate(); //we are not usingthis because by changing link we can't apply moving animation for the slidebar of cart insted we will use useState for toggling the view
 
-  const {setIsCartOpen,setIsProfileOpen} = useContext(MyStore);
+  const {setIsCartOpen,setIsProfileOpen,handelLogout} = useContext(MyStore);
   const navigate = useNavigate();  //we are using it for loguout button
 
   return (
@@ -58,7 +58,10 @@ export default function Navbar() {
 
         {/* Logout Button */}
         <button
-          onClick={()=>{navigate('/auth')}}
+          onClick={()=>{
+            navigate('/auth')
+            handelLogout()
+          }}
           title="logout"
           aria-label="Logout"
           className="p-2.5 rounded-full bg-slate-800/80 hover:bg-red-500/20 hover:border-red-500/50 text-slate-200 hover:text-red-400 transition-all duration-200 border border-slate-700/50 shadow-sm"

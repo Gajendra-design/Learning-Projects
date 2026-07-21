@@ -1,16 +1,21 @@
 import React, { useContext, useState } from 'react';
 import { ArrowRight, Eye, EyeOff, Lock, Mail, AlertCircle } from 'lucide-react';
 import { useForm } from 'react-hook-form';
-import { Link } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 import { MyStore } from '../../Context/MyStore';
 
 const Login = () => {
+
+  const navigate = useNavigate();  //now phale humne ye MyContect me use kiya tha handelLogin me buy kyu ki wo BrowserRouter me wrap nahi hai issliye hum waha useNvaigate nahi use kar sakthe hai
+
+
   const [showPassword, setShowPassword] = useState(false);
 
   const {
     register,
     handleSubmit,
     formState: { errors },
+    reset
   } = useForm({
     mode: 'onChange',
   });
@@ -31,7 +36,16 @@ const Login = () => {
       </div>
 
       {/* ================= FORM INPUTS ================= */}
-      <form onSubmit={handleSubmit(handelLogin)} className="space-y-5" noValidate>
+      <form onSubmit={handleSubmit((data)=>{
+        const login = handelLogin(data);
+        if(login){
+          navigate('/')
+          reset();
+        }else{
+          navigate('/auth')
+          reset()
+        }
+      })} className="space-y-5" noValidate>
         
         {/* Email Field */}
         <div className="space-y-1">

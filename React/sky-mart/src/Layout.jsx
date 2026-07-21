@@ -14,6 +14,7 @@ const Layout = () => {
       </header>
 
       {/* yaha pe profile and cart ko mention karna bhul gaya tha kyu ki humne inko indepeent element ki tharah esign kiya hai so indo yahaa pe liko sambhal jayega ye */}
+      {/* and remember hum in sidebars ke liye bhi routes bana sakthe the and wo bhadiya chal bhi jate but insted humne useState se toggel base banaya hai inko kyu ki routes me jab ye open hote tho uska animation tho smooth hota but closing me wo fail ho jata hai and wo handel tho ho saktha hai but uske liye routes se ched-chad karni hogoi and wo achi practice nahi hogi so for that we used toggel based viewing */}
       <ProfileSidebar/>
       <CartSidebar/>
 
