@@ -69,7 +69,7 @@ const Login = () => {
           <div className="text-center pt-2">
             <p className="text-xs text-slate-400">
               Don't have an account?{' '}
-              <Link to="/register" className="text-indigo-400 hover:text-indigo-300 font-bold transition">
+              <Link to="/auth/register" className="text-indigo-400 hover:text-indigo-300 font-bold transition">
                 Create one
               </Link>
             </p>

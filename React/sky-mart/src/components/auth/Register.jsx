@@ -99,7 +99,7 @@ export default function Register() {
           <div className="text-center pt-2">
             <p className="text-xs text-slate-400">
               Already have an account?{' '}
-              <Link to="/login" className="text-indigo-400 hover:text-indigo-300 font-bold transition">
+              <Link to="/auth" className="text-indigo-400 hover:text-indigo-300 font-bold transition">
                 Sign in
               </Link>
             </p>

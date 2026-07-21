@@ -1,6 +1,6 @@
 import React, { useContext} from 'react';
 import { ShoppingCart, User, LogOut, Store } from 'lucide-react';
-import { Link, NavLink} from 'react-router';
+import { Link, NavLink, useNavigate} from 'react-router';
 import { MyStore } from '../../Context/MyStore';
 
 export default function Navbar() {
@@ -8,6 +8,7 @@ export default function Navbar() {
   // const navigate = useNavigate(); //we are not usingthis because by changing link we can't apply moving animation for the slidebar of cart insted we will use useState for toggling the view
 
   const {setIsCartOpen,setIsProfileOpen} = useContext(MyStore);
+  const navigate = useNavigate();  //we are using it for loguout button
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-3 py-4 flex items-center justify-between">
@@ -57,6 +58,7 @@ export default function Navbar() {
 
         {/* Logout Button */}
         <button
+          onClick={()=>{navigate('/auth')}}
           title="logout"
           aria-label="Logout"
           className="p-2.5 rounded-full bg-slate-800/80 hover:bg-red-500/20 hover:border-red-500/50 text-slate-200 hover:text-red-400 transition-all duration-200 border border-slate-700/50 shadow-sm"

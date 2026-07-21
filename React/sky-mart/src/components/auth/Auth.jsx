@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Store, Mail, Lock, Eye, EyeOff, ArrowRight } from 'lucide-react';
-import { Link } from 'react-router';
+import { Link, Outlet } from 'react-router';
 import Login from './Login';
 import Register from './Register';
 
@@ -73,7 +73,7 @@ export default function Auth() {
       {/* ================= RIGHT HALF: SIGN IN FORM ================= */}
       <div className="w-full lg:w-1/2 flex items-center justify-center p-6 sm:p-12 bg-slate-950">
         
-        <Register/>
+        <Outlet/>
 
       </div>
 
