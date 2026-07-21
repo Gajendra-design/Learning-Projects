@@ -7,7 +7,7 @@ import Layout from './Layout'
 import Home from './components/Pages/Home'
 import Shop from './components/Pages/Shop'
 import About from './components/Pages/About'
-import ProtectedRoute from './protectedRoute'
+import ProtectedRoute from './ProtectedRoute'
 import PublicRoute from './PublicRoute'
 
 const ReactRouterProvider = () => {
