@@ -1,7 +1,7 @@
 import React from 'react';
 import { Search, ChevronDown} from 'lucide-react';
-import ProductCard from '../Particals/ProductCard';
 import { Link } from 'react-router';
+import ProductCard from '../Particals/ProductCard';
 
 export default function Shop() {
   // Static Dummy Products Data

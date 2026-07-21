@@ -5,9 +5,9 @@ import About from './components/Pages/About';
 import Shop from './components/Pages/Shop';
 import Home from './components/Pages/Home';
 import Footer from './components/Particals/Footer';
-import ProductDisplay from './components/Pages/ProdcutDisplay';
 import CartSidebar from './components/Particals/Sidebar/CartSidebar';
 import ProfileSidebar from './components/Particals/Sidebar/ProfileSidebar';
+import ProductDisplay from './components/Pages/ProdcutDisplay';
 
 const App = () => {
   

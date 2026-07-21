@@ -1,6 +1,6 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext} from 'react';
 import { ShoppingCart, User, LogOut, Store } from 'lucide-react';
-import { Link, NavLink, useNavigate } from 'react-router';
+import { Link, NavLink} from 'react-router';
 import { MyStore } from '../../Context/MyStore';
 
 export default function Navbar() {

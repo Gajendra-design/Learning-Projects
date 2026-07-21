@@ -13,7 +13,7 @@ import {
 import { Link } from 'react-router';
 import ProductCard from '../Particals/ProductCard';
 
-export default function ProductDisplay({ product, relatedProducts }) {
+export default function ProductDisplay() {
   // Dummy data fallback
   const currentProduct = product || {
     id: 7,
