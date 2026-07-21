@@ -7,46 +7,60 @@ import Layout from './Layout'
 import Home from './components/Pages/Home'
 import Shop from './components/Pages/Shop'
 import About from './components/Pages/About'
+import ProtectedRoute from './protectedRoute'
+import PublicRoute from './PublicRoute'
 
 const ReactRouterProvider = () => {
 
-const router = createBrowserRouter([
-  {
-    path:"/auth",
-    element:<Auth/>,
-    children:[
-      {
-        path:"",
-        element:<Login/>
-      },
-      {
-        path:'register',
-        element:<Register/> 
-      }
-    ]
-  },
-  {
-    path:"/",
-    element:<Layout/>,
-    children:[
-      {
-        path:"",
-        element:<Home/>
-      },
-      {
-        path:"shop",
-        element:<Shop/>
-      },
-      {
-        path:'/about',
-        element:<About/>
-      }
-    ]
-  }
-])
+  const router = createBrowserRouter([
+    {
+      path: "/auth",
+      element: <PublicRoute />,
+      children: [
+        {
+          path: "",
+          element: <Auth />,
+          children: [
+            {
+              path: "",
+              element: <Login />
+            },
+            {
+              path: 'register',
+              element: <Register />
+            }
+          ]
+        }
+      ]
+    },
+    {
+      path: "/",
+      element: <ProtectedRoute />,
+      children: [
+        {
+          path: "",
+          element: <Layout />,
+          children: [
+            {
+              path: "",
+              element: <Home />
+            },
+            {
+              path: "shop",
+              element: <Shop />
+            },
+            {
+              path: 'about',
+              element: <About />
+            }
+          ]
+        }
+      ]
+    }
+  ])
 
   return (
-    <RouterProvider router={router}/>
+    <RouterProvider router={router} />
   )
 }
 

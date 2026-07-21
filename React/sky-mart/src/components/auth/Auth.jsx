@@ -1,11 +1,8 @@
-import React, { useState } from 'react';
-import { Store, Mail, Lock, Eye, EyeOff, ArrowRight } from 'lucide-react';
-import { Link, Outlet } from 'react-router';
-import Login from './Login';
-import Register from './Register';
+import React from 'react';
+import { Store } from 'lucide-react';
+import { Outlet } from 'react-router';
 
 export default function Auth() {
-
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100 flex font-sans">
       
@@ -69,12 +66,9 @@ export default function Auth() {
         </p>
       </div>
 
-
-      {/* ================= RIGHT HALF: SIGN IN FORM ================= */}
+      {/* ================= RIGHT HALF: DYNAMIC FORM PANEL ================= */}
       <div className="w-full lg:w-1/2 flex items-center justify-center p-6 sm:p-12 bg-slate-950">
-        
-        <Outlet/>
-
+        <Outlet />
       </div>
 
     </div>
