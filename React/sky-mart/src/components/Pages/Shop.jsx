@@ -82,8 +82,8 @@ export default function Shop() {
       {/* ================= PRODUCTS GRID ================= */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 justify-items-center pt-2">
         {products.map((item) => (
-          <Link to='/product-display/7'>
-            <ProductCard key={item.id} product={item} />
+          <Link key={item.title.concat(item.id,item.category)} to='/product-display/7'>
+            <ProductCard product={item} />
           </Link>
         ))}
       </div>
