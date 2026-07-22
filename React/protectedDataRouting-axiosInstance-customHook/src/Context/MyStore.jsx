@@ -6,8 +6,7 @@ export const MyStoreProvider = ({children}) => {
 
  const [users,setUsers] = useState(JSON.parse(localStorage.getItem('users')) || []);
  const [loggedInUser,setLoggedInUser] = useState(JSON.parse(localStorage.getItem('loggedInUser')));
-const [products,setProducts] = useState([]);
-const [apiUsers,setApiUsers] = useState([]);
+const [data,setData] = useState([]);
 
  console.log(users);
  console.log(loggedInUser);
@@ -59,10 +58,8 @@ const [apiUsers,setApiUsers] = useState([]);
             handelRegister,
             handelLogin,
             handelLogout,
-            products,
-            setProducts,
-            apiUsers,
-            setApiUsers
+            data,
+            setData
          }}>
             {children}
         </MyStore.Provider>
