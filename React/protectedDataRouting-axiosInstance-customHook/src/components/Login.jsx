@@ -1,34 +1,9 @@
 import React, { useContext } from 'react'
-import { useForm } from 'react-hook-form'
-import { useNavigate } from 'react-router'
-import { MyStore } from '../Context/MyStore'
+import { useAuth } from '../hooks/useAuth'
 
 const Login = () => {
-  const navigate = useNavigate()
   
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm({
-    mode: 'onChange',
-  })
-
-  // Destructure handleLogin (or handelLogin) from MyStore context
-  const { handelLogin } = useContext(MyStore)
-
-  const onFormSubmit = (data)=>{
-    const status =  handelLogin(data);
-
-    if(status){
-      navigate('/home');
-      return 
-    }
-
-    reset();
-    return 
-  }
+  const {navigate,register,onLogin,handleSubmit,errors} = useAuth()
 
 
   return (
@@ -47,7 +22,7 @@ const Login = () => {
       </div>
 
       {/* Form UI */}
-      <form className="space-y-5" onSubmit={handleSubmit(onFormSubmit)}>
+      <form className="space-y-5" onSubmit={handleSubmit(onLogin)}>
         
         {/* Email Field */}
         <div>

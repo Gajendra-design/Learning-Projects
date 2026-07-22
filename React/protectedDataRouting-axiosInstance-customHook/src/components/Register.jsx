@@ -1,34 +1,9 @@
 import React, { useContext } from 'react'
-import { useForm } from 'react-hook-form'
-import { useNavigate } from 'react-router'
-import { MyStore } from '../Context/MyStore'
+import { useAuth } from '../hooks/useAuth'
 
 const Register = () => {
-  const navigate = useNavigate()
-  const {
-    register,
-    reset,
-    watch,
-    formState: { errors },
-    handleSubmit,
-  } = useForm({
-    mode: 'onChange',
-  })
-
-  const { handelRegister } = useContext(MyStore)
-  const password = watch('password')
-
-  const onFormSubmit = (data) => {
-    const status = handelRegister(data)
-
-    if(status){
-      navigate('/home')
-      return 
-    }
-
-    reset()
-    return
-  }
+  
+  const {navigate,register,password,onRegister,handleSubmit,errors} = useAuth()
 
   return (
     <div className="relative w-full max-w-md bg-stone-900/60 backdrop-blur-xl border border-stone-800 rounded-2xl p-8 shadow-2xl shadow-orange-950/20">
@@ -55,7 +30,7 @@ const Register = () => {
       </div>
 
       {/* Form UI */}
-      <form className="space-y-4" onSubmit={handleSubmit(onFormSubmit)}>
+      <form className="space-y-4" onSubmit={handleSubmit(onRegister)}>
         {/* Name Field */}
         <div>
           <label htmlFor="name" className="block text-xs font-medium uppercase tracking-wider text-stone-300 mb-2">
