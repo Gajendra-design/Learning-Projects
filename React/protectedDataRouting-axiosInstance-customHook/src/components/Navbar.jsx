@@ -1,16 +1,19 @@
 import React, { useContext } from 'react'
 import { MyStore } from '../Context/MyStore'
-import { useNavigate } from 'react-router'
+import { NavLink, useNavigate } from 'react-router'
 
 const Navbar = () => {
 
-  const {handelLogout} = useContext(MyStore)
+  //   No, you cannot use ({ isActive }) on a standard <span>.
+  // The ({ isActive }) function is a special feature provided specifically by React Router's <NavLink> component. A regular <span> is just a standard HTML element—it doesn't know what route you are currently on, so React Router won't pass isActive to it.
+
+  const { handelLogout } = useContext(MyStore)
   const navigate = useNavigate();
 
   return (
     <nav className="w-full bg-stone-900/60 backdrop-blur-xl border-b border-stone-800 px-6 py-4 shadow-xl shadow-orange-950/10">
       <div className="max-w-7xl mx-auto flex items-center justify-between">
-        
+
         {/* Brand / Logo */}
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-orange-500/20 to-amber-500/20 border border-orange-500/30 flex items-center justify-center text-orange-400">
@@ -26,17 +29,39 @@ const Navbar = () => {
 
         {/* Navigation Links */}
         <div className="flex items-center gap-2 bg-stone-950/60 p-1.5 rounded-xl border border-stone-800">
-          <span onClick={()=>{navigate('/home')}} className="px-4 py-2 text-sm font-medium text-stone-300 hover:text-white hover:bg-stone-800/60 rounded-lg transition-all duration-200">Users</span>
-          <span onClick={()=>{navigate('/home/products')}} className="px-4 py-2 text-sm font-medium text-stone-300 hover:text-white hover:bg-stone-800/60 rounded-lg transition-all duration-200">Products</span>
+          <NavLink
+            to='/home'
+            end
+            className={({ isActive }) =>
+              `px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200 ${isActive
+                ? "text-orange-500 bg-stone-800/80 font-semibold"
+                : "text-stone-300 hover:text-white hover:bg-stone-800/60"
+              }`
+            }
+          >
+            Users
+          </NavLink>
+
+          <NavLink
+            to='/home/products'
+            className={({ isActive }) =>
+              `px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200 ${isActive
+                ? "text-orange-500 bg-stone-800/80 font-semibold"
+                : "text-stone-300 hover:text-white hover:bg-stone-800/60"
+              }`
+            }
+          >
+            Products
+          </NavLink>
         </div>
 
         {/* Logout Button */}
         <div>
           <button
-          onClick={()=>{
-            handelLogout();
-            navigate('/')
-          }}
+            onClick={() => {
+              handelLogout();
+              navigate('/')
+            }}
             type="button"
             className="flex items-center gap-2 px-4 py-2 text-sm font-semibold text-orange-400 bg-orange-500/10 border border-orange-500/30 hover:bg-orange-500/20 active:bg-orange-500/30 rounded-xl transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-amber-400 focus:ring-offset-2 focus:ring-offset-stone-900"
           >

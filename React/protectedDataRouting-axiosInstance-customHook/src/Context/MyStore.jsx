@@ -6,6 +6,8 @@ export const MyStoreProvider = ({children}) => {
 
  const [users,setUsers] = useState(JSON.parse(localStorage.getItem('users')) || []);
  const [loggedInUser,setLoggedInUser] = useState(JSON.parse(localStorage.getItem('loggedInUser')));
+const [products,setProducts] = useState([]);
+const [apiUsers,setApiUsers] = useState([]);
 
  console.log(users);
  console.log(loggedInUser);
@@ -45,6 +47,7 @@ export const MyStoreProvider = ({children}) => {
 
  const handelLogout = () => {
    localStorage.removeItem('loggedInUser')
+   setLoggedInUser(null)
  }
     
    return (
@@ -55,7 +58,11 @@ export const MyStoreProvider = ({children}) => {
             setLoggedInUser,
             handelRegister,
             handelLogin,
-            handelLogout
+            handelLogout,
+            products,
+            setProducts,
+            apiUsers,
+            setApiUsers
          }}>
             {children}
         </MyStore.Provider>
