@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Search, ChevronDown } from 'lucide-react';
 import { Link } from 'react-router';
 import ProductCard from '../Particals/ProductCard';
@@ -8,6 +8,11 @@ import { MyStore } from '../../Context/MyStore';
 export default function Shop() {
 
   const { products, setProducts } = useContext(MyStore)
+  const [searchText, setSearchText] = useState('')
+  const [catagory, setCatagory] = useState('');
+  const [priceRange, setPriceRange] = useState('')
+
+
 
   const getProducts = async (url) => {
     const response = await axios.get(url);
@@ -19,6 +24,39 @@ export default function Shop() {
   //i am using useEffect for handeling infinite calling of getProduct funciton because of setProduct rerender and the call as we studied
   useEffect(() => { getProducts('https://fakestoreapi.com/products') }, [])
 
+  const getResults = () => {
+
+   const filterProducts = products.filter((item)=>{
+      
+      //sabse phale searh ke according filter karege agar usme kuch hai tho
+      //so iske liye condition set kaege agar search bar empty hai to true rakege parameter and nah tho uske according kya filter condition honi chaiye
+      const searchCondition = searchText === '' || ((item.title.toLowerCase().includes(searchText.toLowerCase())) || (item.description.toLowerCase().includes(searchText.toLowerCase())))
+
+      //phir catagroy ke according filter karege agar usme kuch hai tho
+      //so iske liye bhi condition set karege ki catagry me kuch hai tho uske according filter condition set karege nahi tho phir true assign karwa dege
+      const catagoryCondition = catagory === "" || item.category.toLowerCase() === catagory.toLowerCase()
+
+      //now humne search ke and catagory ke accordin filter condition ready kar li hai ki agar unme kuch nahi hai tho true nahi tho filter condition unki
+      // so ab return condition ready karge jisme agar done me kuch hai bhi nahi tho bhi pure product kyuki donen me true hai return ho nahoi tho filter ho donen me jo condition hai uske according
+      
+      return searchCondition && catagoryCondition;
+    
+    }).sort((a,b)=>{ //phir price range ke according sort karege agar usme kuch hai tho isko direct chain karo thaki alag se variable na banan pade
+     
+      // a-b assemding ke liye b-a decending ke liye
+      if(priceRange === "Price: Low to High"){
+        return a.price - b.price;
+      } else if(priceRange === "Price: High to Low"){
+        return b.price - a.price
+      }
+
+      //price me kuch nahi hai tho jo order hai usko mainain karo
+      return 0
+    })
+
+    return filterProducts;4231
+    
+  }
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6 font-sans text-slate-100">
@@ -41,6 +79,9 @@ export default function Shop() {
           <div className="relative flex-1 w-full">
             <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
             <input
+              onChange={(e) => {
+                setSearchText(e.target.value)
+              }}
               type="text"
               placeholder="Search products..."
               className="w-full bg-slate-950/80 border border-slate-800 focus:border-indigo-500 rounded-xl pl-10 pr-4 py-2.5 text-xs md:text-sm text-white placeholder-slate-500 focus:outline-none transition-all duration-200"
@@ -50,10 +91,12 @@ export default function Shop() {
           {/* Category Dropdown UI */}
           <div className="relative w-full sm:w-auto">
             <select
-              defaultValue="All Categories"
+              onChange={(e) => {
+                setCatagory(e.target.value)
+              }}
               className="w-full sm:w-48 appearance-none bg-slate-950/80 border border-slate-800 hover:border-slate-700 text-slate-200 text-xs md:text-sm font-medium rounded-xl px-4 py-2.5 pr-10 cursor-pointer focus:outline-none focus:border-indigo-500 transition-all capitalize"
             >
-              <option value="All Categories" className="bg-slate-900 text-slate-200">All Categories</option>
+              <option className="bg-slate-900 text-slate-200" value='' selected>Catagory</option>
               <option value="men's clothing" className="bg-slate-900 text-slate-200">Men's Clothing</option>
               <option value="women's clothing" className="bg-slate-900 text-slate-200">Women's Clothing</option>
               <option value="jewelery" className="bg-slate-900 text-slate-200">Jewelery</option>
@@ -65,13 +108,13 @@ export default function Shop() {
           {/* Sort Dropdown UI */}
           <div className="relative w-full sm:w-auto">
             <select
+              onChange={(e) => { setPriceRange(e.target.value) }}
               defaultValue="Featured"
               className="w-full sm:w-44 appearance-none bg-slate-950/80 border border-slate-800 hover:border-slate-700 text-slate-200 text-xs md:text-sm font-medium rounded-xl px-4 py-2.5 pr-10 cursor-pointer focus:outline-none focus:border-indigo-500 transition-all"
             >
-              <option value="Featured" className="bg-slate-900 text-slate-200">Featured</option>
+              <option value="" selected className="bg-slate-900 text-slate-200">Price</option>
               <option value="Price: Low to High" className="bg-slate-900 text-slate-200">Price: Low to High</option>
               <option value="Price: High to Low" className="bg-slate-900 text-slate-200">Price: High to Low</option>
-              <option value="Top Rated" className="bg-slate-900 text-slate-200">Top Rated</option>
             </select>
             <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
           </div>
@@ -81,11 +124,14 @@ export default function Shop() {
 
       {/* ================= PRODUCTS GRID ================= */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 justify-items-center pt-2">
-        {products.map((item) => (
-          <Link key={item.title.concat(item.id,item.category)} to='/product-display/7'>
-            <ProductCard product={item} />
-          </Link>
-        ))}
+        {
+          //now humne hamare getResults ko aise design kiya hai ki agar hamare search and fiter me kuch value nahi hai tho hit filter products will simply be all the products in the product array spo humko extra conditional rendering nahi karni hogi
+          getResults().map((item) => (  
+              <Link key={item.title.concat(item.id, item.category)} to='/product-display/7'>
+                <ProductCard product={item} />
+              </Link>
+            ))
+        }
       </div>
 
     </div>

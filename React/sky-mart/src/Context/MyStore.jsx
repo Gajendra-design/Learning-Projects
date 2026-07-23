@@ -16,11 +16,11 @@ export const MyStoreProvider = ({ children }) => {
   const [users,setUsers] = useState(JSON.parse(localStorage.getItem('users')) || [])
   const [loggedInUser,setLoggedInUser] = useState(JSON.parse(localStorage.getItem('loggedInUser')))  //now yaha pe humne || operator iss liye use nahi kiya kyu ki yaha pe agar ye local storage me nahi hua tho null hii return karega and humko bhi tab null hi set karna hai
   
-  console.log('is cart open',isCartOpen);
-  console.log('is profile open',isProfileOpen);
-  console.log('products in ls',JSON.parse(localStorage.getItem('products')));
-  console.log('users',users);
-  console.log('Logged in user',loggedInUser);
+  // console.log('is cart open',isCartOpen);
+  // console.log('is profile open',isProfileOpen);
+  // console.log('products in ls',JSON.parse(localStorage.getItem('products')));
+  // console.log('users',users);
+  // console.log('Logged in user',loggedInUser);
   
   
   
