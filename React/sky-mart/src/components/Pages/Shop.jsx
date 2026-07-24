@@ -3,14 +3,17 @@ import { Search, ChevronDown, X } from 'lucide-react';
 import ProductCard from '../Particals/ProductCard';
 import axios from 'axios';
 import { MyStore } from '../../Context/MyStore';
-import { Outlet } from 'react-router';
+import { Outlet, useParams } from 'react-router';
 
 export default function Shop() {
 
+  const {productCatagory} = useParams() 
   const { products, setProducts } = useContext(MyStore)
   const [searchText, setSearchText] = useState('')
-  const [catagory, setCatagory] = useState('');
+  const [catagory, setCatagory] = useState(productCatagory === "all" ? "" : productCatagory.toLowerCase());
   const [priceRange, setPriceRange] = useState('')
+  console.log(catagory);
+  
 
 
 
@@ -104,7 +107,7 @@ export default function Shop() {
               }}
               className="w-full sm:w-48 appearance-none bg-slate-950/80 border border-slate-800 hover:border-slate-700 text-slate-200 text-xs md:text-sm font-medium rounded-xl px-4 py-2.5 pr-10 cursor-pointer focus:outline-none focus:border-indigo-500 transition-all capitalize"
             >
-              <option className="bg-slate-900 text-slate-200" value='' selected>Catagory</option>
+              <option className="bg-slate-900 text-slate-200" value=''>Catagory</option>
               <option value="men's clothing" className="bg-slate-900 text-slate-200">Men's Clothing</option>
               <option value="women's clothing" className="bg-slate-900 text-slate-200">Women's Clothing</option>
               <option value="jewelery" className="bg-slate-900 text-slate-200">Jewelery</option>

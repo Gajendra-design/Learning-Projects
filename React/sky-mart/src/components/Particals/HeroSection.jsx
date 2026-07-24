@@ -1,5 +1,6 @@
 import React from 'react';
 import { Package, TrendingUp, Star, Tag, ArrowRight } from 'lucide-react';
+import { Link } from 'react-router';
 
 export default function HeroSection() {
   const userName = "Gajendra"; // Dynamic user name variable
@@ -40,13 +41,16 @@ export default function HeroSection() {
 
               {/* Action Buttons */}
               <div className="flex flex-wrap items-center gap-4 pt-2">
-                <button className="flex items-center gap-2 bg-indigo-500 hover:bg-indigo-600 text-white font-medium px-6 py-3 rounded-xl transition duration-200 shadow-md">
-                  <span>Shop Now</span>
+
+              <Link to='/shop/all' className="flex items-center gap-2 bg-indigo-500 hover:bg-indigo-600 text-white font-medium px-6 py-3 rounded-xl transition duration-200 shadow-md">
+                <span>Shop Now</span>
                   <ArrowRight className="w-4 h-4" />
-                </button>
-                <button className="bg-slate-800 hover:bg-slate-700 text-slate-200 font-medium px-6 py-3 rounded-xl border border-slate-700/50 transition duration-200">
-                  View All Products
-                </button>
+              </Link>
+
+              <Link to='/about' className="bg-slate-800 hover:bg-slate-700 text-slate-200 font-medium px-6 py-3 rounded-xl border border-slate-700/50 transition duration-200">
+                  About Us
+              </Link>
+
               </div>
             </div>
 

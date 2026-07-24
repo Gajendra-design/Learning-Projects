@@ -1,6 +1,7 @@
 import React from 'react';
 import HeroSection from '../Particals/HeroSection';
 import ProductSection from '../Particals/ProductSection';
+import CategorySection from '../Particals/CategorySection';
 
 const Home = () => {
   return (
@@ -10,8 +11,13 @@ const Home = () => {
       </section>
 
       <section className="w-full">
+        <CategorySection />
+      </section>
+
+      <section className="w-full">
         <ProductSection />
       </section>
+
     </main>
   );
 };

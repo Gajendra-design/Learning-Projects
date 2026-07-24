@@ -47,7 +47,7 @@ const ReactRouterProvider = () => {
               element: <Home />
             },
             {
-              path: "shop",
+              path: "shop/:productCatagory",
               element: <Shop />,
             },
             {
