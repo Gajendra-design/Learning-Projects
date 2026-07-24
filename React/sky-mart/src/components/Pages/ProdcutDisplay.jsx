@@ -18,9 +18,13 @@ import { MyStore } from '../../Context/MyStore';
 export default function ProductDisplay() {
 
 const {id} = useParams()
+const nextId = Number(id)+1;
+const previousId = Number(id)-1;
 const [currentProduct,setCurrentProducts] = useState(null); 
 const [reletedProducts,setReletedProducts] = useState(null);
 const {products} = useContext(MyStore);
+
+
 
   const getData = async () =>{
     const data = await (await axios.get(`https://fakestoreapi.com//products/${id}`)).data
@@ -31,7 +35,7 @@ const {products} = useContext(MyStore);
     setReletedProducts(filterProducts)  
   }
 
-  useEffect(()=>{getData()},[])
+  useEffect(()=>{getData()},[id])
 
   
 
@@ -161,15 +165,22 @@ const {products} = useContext(MyStore);
 
         {/* ================= PAGINATION BUTTONS ================= */}
         <div className="flex items-center justify-between gap-4">
-          <button className="flex items-center gap-2 bg-slate-900 hover:bg-slate-800 text-slate-300 px-6 py-3 rounded-xl border border-slate-800 transition duration-200 text-xs font-semibold">
+          
+          {
+            (previousId === 0 ) ||
+            <Link to={`/product/${previousId}`} className="flex items-center gap-2 bg-slate-900 hover:bg-slate-800 text-slate-300 px-6 py-3 rounded-xl border border-slate-800 transition duration-200 text-xs font-semibold">
             <ChevronLeft className="w-4 h-4" />
             <span>Previous</span>
-          </button>
+          </Link>
+          }
 
-          <button className="flex items-center gap-2 bg-indigo-500 hover:bg-indigo-600 text-white px-6 py-3 rounded-xl transition duration-200 text-xs font-semibold shadow-md">
+          {
+            (nextId > products.length) || 
+            <Link to={`/product/${Number(id)+1}`} className="flex items-center gap-2 bg-indigo-500 hover:bg-indigo-600 text-white px-6 py-3 rounded-xl transition duration-200 text-xs font-semibold shadow-md">
             <span>Next</span>
             <ChevronRight className="w-4 h-4" />
-          </button>
+          </Link>
+          }
         </div>
 
         {/* ================= RELATED PRODUCTS ================= */}
