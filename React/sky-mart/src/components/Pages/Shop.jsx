@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Search, ChevronDown } from 'lucide-react';
-import { Link } from 'react-router';
+import { Search, ChevronDown, X } from 'lucide-react';
 import ProductCard from '../Particals/ProductCard';
 import axios from 'axios';
 import { MyStore } from '../../Context/MyStore';
@@ -26,8 +25,8 @@ export default function Shop() {
 
   const getResults = () => {
 
-   const filterProducts = products.filter((item)=>{
-      
+    const filterProducts = products.filter((item) => {
+
       //sabse phale searh ke according filter karege agar usme kuch hai tho
       //so iske liye condition set kaege agar search bar empty hai to true rakege parameter and nah tho uske according kya filter condition honi chaiye
       const searchCondition = searchText === '' || ((item.title.toLowerCase().includes(searchText.toLowerCase())) || (item.description.toLowerCase().includes(searchText.toLowerCase())))
@@ -38,15 +37,15 @@ export default function Shop() {
 
       //now humne search ke and catagory ke accordin filter condition ready kar li hai ki agar unme kuch nahi hai tho true nahi tho filter condition unki
       // so ab return condition ready karge jisme agar done me kuch hai bhi nahi tho bhi pure product kyuki donen me true hai return ho nahoi tho filter ho donen me jo condition hai uske according
-      
+
       return searchCondition && catagoryCondition;
-    
-    }).sort((a,b)=>{ //phir price range ke according sort karege agar usme kuch hai tho isko direct chain karo thaki alag se variable na banan pade
-     
+
+    }).sort((a, b) => { //phir price range ke according sort karege agar usme kuch hai tho isko direct chain karo thaki alag se variable na banan pade
+
       // a-b assemding ke liye b-a decending ke liye
-      if(priceRange === "Price: Low to High"){
+      if (priceRange === "Price: Low to High") {
         return a.price - b.price;
-      } else if(priceRange === "Price: High to Low"){
+      } else if (priceRange === "Price: High to Low") {
         return b.price - a.price
       }
 
@@ -54,8 +53,14 @@ export default function Shop() {
       return 0
     })
 
-    return filterProducts;4231
-    
+    return filterProducts; 4231
+
+  }
+
+  const clearAllFilters = ()=>{
+    setSearchText('');
+    setCatagory('');
+    setPriceRange('');
   }
 
   return (
@@ -82,6 +87,7 @@ export default function Shop() {
               onChange={(e) => {
                 setSearchText(e.target.value)
               }}
+              value={searchText}
               type="text"
               placeholder="Search products..."
               className="w-full bg-slate-950/80 border border-slate-800 focus:border-indigo-500 rounded-xl pl-10 pr-4 py-2.5 text-xs md:text-sm text-white placeholder-slate-500 focus:outline-none transition-all duration-200"
@@ -91,6 +97,7 @@ export default function Shop() {
           {/* Category Dropdown UI */}
           <div className="relative w-full sm:w-auto">
             <select
+            value={catagory}
               onChange={(e) => {
                 setCatagory(e.target.value)
               }}
@@ -108,6 +115,7 @@ export default function Shop() {
           {/* Sort Dropdown UI */}
           <div className="relative w-full sm:w-auto">
             <select
+            value={priceRange}
               onChange={(e) => { setPriceRange(e.target.value) }}
               defaultValue="Featured"
               className="w-full sm:w-44 appearance-none bg-slate-950/80 border border-slate-800 hover:border-slate-700 text-slate-200 text-xs md:text-sm font-medium rounded-xl px-4 py-2.5 pr-10 cursor-pointer focus:outline-none focus:border-indigo-500 transition-all"
@@ -119,6 +127,17 @@ export default function Shop() {
             <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
           </div>
 
+          {/* adding clear button for clearing everthing in search and filter */}
+            {(searchText || catagory || priceRange) && (
+              <button
+                onClick={clearAllFilters}
+                className="flex items-center gap-1.5 px-3 py-2.5 text-xs md:text-sm font-medium text-slate-400 hover:text-white bg-slate-950/80 hover:bg-slate-800 border border-slate-800 hover:border-slate-700 rounded-xl transition-all duration-200 cursor-pointer shrink-0"
+              >
+                <X className="w-3.5 h-3.5" />
+                <span>Clear</span>
+              </button>
+            )}
+
         </div>
       </div>
 
@@ -126,11 +145,9 @@ export default function Shop() {
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 justify-items-center pt-2">
         {
           //now humne hamare getResults ko aise design kiya hai ki agar hamare search and fiter me kuch value nahi hai tho hit filter products will simply be all the products in the product array spo humko extra conditional rendering nahi karni hogi
-          getResults().map((item) => (  
-              <Link key={item.title.concat(item.id, item.category)} to='/product-display/7'>
-                <ProductCard product={item} />
-              </Link>
-            ))
+          getResults().map((item) => (
+              <ProductCard key={item.title.concat(item.id, item.category)} product={item} />
+          ))
         }
       </div>
 

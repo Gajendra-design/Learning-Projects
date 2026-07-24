@@ -1,35 +1,44 @@
 import React from 'react';
 import { Star, ShoppingBag, Eye } from 'lucide-react';
+import { Link } from 'react-router';
 
 export default function ProductCard({ product }) {
   return (
     <div className="group relative bg-slate-900 border border-slate-800 hover:border-slate-700/80 rounded-2xl p-4 flex flex-col justify-between transition-all duration-300 shadow-lg hover:shadow-slate-950/50 w-full max-w-sm">
-      
-      {/* ================= CARD HEADER / IMAGE ================= */}
-      <div className="relative w-full h-52 rounded-xl bg-slate-950/80 border border-slate-800/80 p-4 flex items-center justify-center overflow-hidden">
-        {/* Category Badge */}
-        <span className="absolute top-3 left-3 text-[11px] font-semibold uppercase tracking-wider text-indigo-400 bg-indigo-500/10 border border-indigo-500/20 px-2.5 py-1 rounded-full backdrop-blur-md z-10">
-          {product.category}
-        </span>
 
-        {/* Product Image */}
-        <img
-          src={product.image}
-          alt={product.title}
-          className="max-h-full max-w-full object-contain transition-transform duration-300 group-hover:scale-105"
-        />
 
-        {/* Hover Quick Action Overlay */}
-        <div className="absolute inset-0 bg-slate-950/40 backdrop-blur-[2px] opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center gap-2">
-          <button 
-            title="Quick view"
-            aria-label="Quick view"
-            className="p-2.5 rounded-full bg-slate-900/90 text-slate-200 hover:text-white hover:bg-slate-800 border border-slate-700/60 shadow-md transition-transform duration-200 hover:scale-110"
-          >
-            <Eye className="w-4 h-4" />
-          </button>
+
+      <Link to='/product-display/7'>
+
+        {/* ================= CARD HEADER / IMAGE ================= */}
+        <div className="relative w-full h-52 rounded-xl bg-slate-950/80 border border-slate-800/80 p-4 flex items-center justify-center overflow-hidden">
+          {/* Category Badge */}
+          <span className="absolute top-3 left-3 text-[11px] font-semibold uppercase tracking-wider text-indigo-400 bg-indigo-500/10 border border-indigo-500/20 px-2.5 py-1 rounded-full backdrop-blur-md z-10">
+            {product.category}
+          </span>
+
+          {/* Product Image */}
+          <img
+            src={product.image}
+            alt={product.title}
+            className="max-h-full max-w-full object-contain transition-transform duration-300 group-hover:scale-105"
+          />
+
+          {/* Hover Quick Action Overlay */}
+          <div className="absolute inset-0 bg-slate-950/40 backdrop-blur-[2px] opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center gap-2">
+            <button
+              title="Quick view"
+              aria-label="Quick view"
+              className="p-2.5 rounded-full bg-slate-900/90 text-slate-200 hover:text-white hover:bg-slate-800 border border-slate-700/60 shadow-md transition-transform duration-200 hover:scale-110"
+            >
+              <Eye className="w-4 h-4" />
+            </button>
+          </div>
         </div>
-      </div>
+
+      </Link>
+
+
 
       {/* ================= CARD BODY ================= */}
       <div className="mt-4 flex-1 flex flex-col justify-between space-y-3">
@@ -65,7 +74,7 @@ export default function ProductCard({ product }) {
             </span>
           </div>
 
-          <button 
+          <button
             title="Add to Cart"
             className="flex items-center gap-2 bg-indigo-500 hover:bg-indigo-600 text-white text-xs font-semibold px-4 py-2.5 rounded-xl transition-all duration-200 shadow-md shadow-indigo-500/10 active:scale-95"
           >
