@@ -17,6 +17,8 @@ export default function ProfileSidebar() {
     return parts[0][0].toUpperCase();
   };
 
+  const totalItemsInCart = loggedInUser.cartItems.reduce((acc,curr)=>{return (acc + curr.quantity)},0)
+
   return (
     <div
       className={`fixed inset-0 z-50 overflow-hidden transition-all duration-500 ${
@@ -120,7 +122,7 @@ export default function ProfileSidebar() {
               <span>Items in Cart</span>
             </div>
             <span className="text-xs font-bold text-white bg-indigo-500/20 border border-indigo-500/30 px-2.5 py-1 rounded-lg">
-              {loggedInUser?.cartItems?.length || 0} items
+              {totalItemsInCart} items
             </span>
           </div>
 

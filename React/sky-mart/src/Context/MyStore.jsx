@@ -1,4 +1,5 @@
 import React, { createContext, useState } from "react";
+import { set } from "react-hook-form";
 import { useNavigate } from "react-router";
 
 export const MyStore = createContext();
@@ -79,7 +80,147 @@ export const MyStoreProvider = ({ children }) => {
     }
 
   }
+
+  const handelAddToCart = (data)=>{
+
+    //humko logged in use ko bhi ipdate karna hai
+    let updatedLoggedInUser = null
+    
+    //sabe phale users ko update karege
+    const updatedUsers = users.map((user)=>{
+      if(user.email === loggedInUser.email){
+        //yaha pe hum update kar rahe hai logged in user ko
+       updatedLoggedInUser = {...user,cartItems:[...user.cartItems,{...data,quantity:1}]}
+        return updatedLoggedInUser;
+      }
+
+      return user;
+    }) 
+
+    setUsers(updatedUsers);
+    setLoggedInUser(updatedLoggedInUser);
+    localStorage.setItem('users',JSON.stringify(updatedUsers));
+    localStorage.setItem('loggedInUser',JSON.stringify(updatedLoggedInUser));
+
+    setIsCartOpen(true)
+
+  }
+
+  const handelRemoveCartItem = (data)=>{
+    
+    //humko logged in use ko bhi ipdate karna hai
+    let updatedUserCart = loggedInUser.cartItems.filter(item=>item.id !== data.id)
+
+    let updatedLoggedInUser = null;
+    
+    //sabe phale users ko update karege
+    const updatedUsers = users.map((user)=>{
+      if(user.email === loggedInUser.email){
+         //yaha pe hum update kar rahe hai logged in user ko
+       updatedLoggedInUser = {...user,cartItems:updatedUserCart}
+        return updatedLoggedInUser;
+      }
+
+      return user;
+    }) 
+
+    setUsers(updatedUsers);
+    setLoggedInUser(updatedLoggedInUser);
+    localStorage.setItem('users',JSON.stringify(updatedUsers));
+    localStorage.setItem('loggedInUser',JSON.stringify(updatedLoggedInUser));
+
+    setIsCartOpen(true)
+  }
+
+  const handelClearCart = ()=>{
+
+    //humko logged in use ko bhi ipdate karna hai
+    let updatedLoggedInUser = null
+    
+    //sabe phale users ko update karege
+    const updatedUsers = users.map((user)=>{
+      if(user.email === loggedInUser.email){
+        //yaha pe hum update kar rahe hai logged in user ko
+       updatedLoggedInUser = {...user,cartItems:[]}
+        return updatedLoggedInUser;
+      }
+
+      return user;
+    }) 
+
+    setUsers(updatedUsers);
+    setLoggedInUser(updatedLoggedInUser);
+    localStorage.setItem('users',JSON.stringify(updatedUsers));
+    localStorage.setItem('loggedInUser',JSON.stringify(updatedLoggedInUser));
+
+  }
   
+  const increeaseItemQuantity = (data)=>{
+      
+    //humko logged in use ko bhi ipdate karna hai
+    let updatedUserCart = loggedInUser.cartItems.map((item)=>{
+      if(item.id === data.id){
+        return {...item,quantity:item.quantity+1}
+      }
+
+      return item
+    })
+
+    let updatedLoggedInUser = null;
+    
+    //sabe phale users ko update karege
+    const updatedUsers = users.map((user)=>{
+      if(user.email === loggedInUser.email){
+         //yaha pe hum update kar rahe hai logged in user ko
+       updatedLoggedInUser = {...user,cartItems:updatedUserCart}
+        return updatedLoggedInUser;
+      }
+
+      return user;
+    }) 
+
+    setUsers(updatedUsers);
+    setLoggedInUser(updatedLoggedInUser);
+    localStorage.setItem('users',JSON.stringify(updatedUsers));
+    localStorage.setItem('loggedInUser',JSON.stringify(updatedLoggedInUser));
+  }
+
+  const decreaseItemQuantity = (data)=>{
+
+    //edge case yadi wo 0 me jayega tho
+    if(data.quantity-1 === 0){
+          handelRemoveCartItem(data);
+          return 
+        }
+
+
+    //humko logged in use ko bhi ipdate karna hai
+    let updatedUserCart = loggedInUser.cartItems.map((item)=>{
+      if(item.id === data.id){
+        return {...item,quantity:item.quantity-1}
+      }
+
+      return item
+    })
+
+    let updatedLoggedInUser = null;
+    
+    //sabe phale users ko update karege
+    const updatedUsers = users.map((user)=>{
+      if(user.email === loggedInUser.email){
+         //yaha pe hum update kar rahe hai logged in user ko
+       updatedLoggedInUser = {...user,cartItems:updatedUserCart}
+        return updatedLoggedInUser;
+      }
+
+      return user;
+    }) 
+
+    setUsers(updatedUsers);
+    setLoggedInUser(updatedLoggedInUser);
+    localStorage.setItem('users',JSON.stringify(updatedUsers));
+    localStorage.setItem('loggedInUser',JSON.stringify(updatedLoggedInUser));
+  }
 
   return (
     <MyStore.Provider
@@ -96,7 +237,12 @@ export const MyStoreProvider = ({ children }) => {
         setUsers,
         handelLogout,
         loggedInUser,
-        setLoggedInUser
+        setLoggedInUser,
+        handelAddToCart,
+        handelClearCart,
+        handelRemoveCartItem,
+        increeaseItemQuantity,
+        decreaseItemQuantity
       }}
     >
       {children}

@@ -4,6 +4,8 @@ import CatagoryCard from './CatagoryCard';
 import { Shirt, Gem, Tv, ShoppingBag, ArrowRight, Grid } from 'lucide-react';
 
 
+//iska reduce fucniton se solution karna hai
+
 // Static categories array
 const categories = [
     { name: "Men's Clothing", count: 4, icon: Shirt },
@@ -11,6 +13,7 @@ const categories = [
     { name: "Jewelery", count: 4, icon: Gem },
     { name: "Electronics", count: 6, icon: Tv },
 ];
+
 
 export default function CategorySection() {
     return (

@@ -1,14 +1,15 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { 
-  Star, 
-  ShoppingBag, 
-  Heart, 
-  Truck, 
-  ShieldCheck, 
-  RotateCcw, 
-  ChevronLeft, 
-  ChevronRight, 
-  ArrowLeft 
+import {
+  Star,
+  ShoppingBag,
+  Heart,
+  Truck,
+  ShieldCheck,
+  RotateCcw,
+  ChevronLeft,
+  ChevronRight,
+  ArrowLeft,
+  Trash2
 } from 'lucide-react';
 import { Link, useParams } from 'react-router';
 import ProductCard from '../Particals/ProductCard';
@@ -17,30 +18,27 @@ import { MyStore } from '../../Context/MyStore';
 
 export default function ProductDisplay() {
 
-const {id} = useParams()
-const nextId = Number(id)+1;
-const previousId = Number(id)-1;
-const [currentProduct,setCurrentProducts] = useState(null); 
-const [reletedProducts,setReletedProducts] = useState(null);
-const {products} = useContext(MyStore);
+  const { id } = useParams()
+  const nextId = Number(id) + 1;
+  const previousId = Number(id) - 1;
+  const [currentProduct, setCurrentProducts] = useState(null);
+  const [reletedProducts, setReletedProducts] = useState([]);
+  const { products, handelAddToCart,loggedInUser,handelRemoveCartItem } = useContext(MyStore);
 
-
-
-  const getData = async () =>{
+  const getData = async () => {
     const data = await (await axios.get(`https://fakestoreapi.com//products/${id}`)).data
-    const filterProducts = products.filter((product)=>{
-      return product.category === data.category
+    const filterProducts = products.filter((product) => {
+      return product.category === data.category && product.id !== data.id //uss main product ke alawa uss catagory me jo bhi hai aa jao
     })
     setCurrentProducts(data);
-    setReletedProducts(filterProducts)  
+    setReletedProducts(filterProducts)
   }
 
-  useEffect(()=>{getData()},[id])
+  useEffect(() => { getData() }, [id])
 
-  
+  const isMainProductCartItem = loggedInUser.cartItems.some(item=>item.id === Number(id))
 
-
-  if(!currentProduct){
+  if (!currentProduct) {
     return (
       <div className="min-h-screen bg-slate-950 text-white flex items-center justify-center">
         <p className="text-lg font-medium text-slate-400">Loading product details...</p>
@@ -51,7 +49,7 @@ const {products} = useContext(MyStore);
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100 px-4 py-6 md:px-12 font-sans space-y-10">
       <div className="max-w-7xl mx-auto space-y-8">
-        
+
         {/* ================= BREADCRUMBS ================= */}
         <nav className="flex items-center gap-2 text-xs md:text-sm text-slate-400">
           <Link to="/shop/all" className="hover:text-indigo-400 transition-colors flex items-center gap-1">
@@ -69,19 +67,19 @@ const {products} = useContext(MyStore);
         {/* ================= MAIN PRODUCT HERO (SIDE-BY-SIDE ON LG) ================= */}
         <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6 md:p-10 shadow-xl">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-            
+
             {/* Left: Product Image Container */}
             <div className="relative w-full h-80 sm:h-96 lg:h-[480px] bg-slate-950/80 border border-slate-800 rounded-2xl overflow-hidden flex items-center justify-center p-8">
-              <img 
-                src={currentProduct.image} 
-                alt={currentProduct.title} 
+              <img
+                src={currentProduct.image}
+                alt={currentProduct.title}
                 className="max-h-full max-w-full object-contain hover:scale-105 transition-transform duration-300"
               />
             </div>
 
             {/* Right: Product Details Section */}
             <div className="space-y-6">
-              
+
               {/* Category Pill */}
               <div>
                 <span className="inline-block text-xs font-semibold uppercase tracking-wider text-indigo-400 bg-indigo-500/10 border border-indigo-500/20 px-3 py-1 rounded-full">
@@ -99,9 +97,9 @@ const {products} = useContext(MyStore);
                 <div className="flex items-center gap-3 text-sm">
                   <div className="flex items-center gap-1 text-amber-400">
                     {[...Array(5)].map((_, i) => (
-                      <Star 
-                        key={i} 
-                        className={`w-4 h-4 ${i < Math.floor(currentProduct.rating.rate) ? 'fill-amber-400' : 'text-slate-600'}`} 
+                      <Star
+                        key={i}
+                        className={`w-4 h-4 ${i < Math.floor(currentProduct.rating.rate) ? 'fill-amber-400' : 'text-slate-600'}`}
                       />
                     ))}
                     <span className="font-bold text-white ml-1">{currentProduct.rating.rate}</span>
@@ -124,17 +122,31 @@ const {products} = useContext(MyStore);
 
               {/* Add To Cart & Favorite Actions */}
               <div className="flex items-center gap-4 pt-2">
-                <button className="flex-1 flex items-center justify-center gap-2 bg-indigo-500 hover:bg-indigo-600 text-white font-bold px-8 py-4 rounded-2xl transition duration-200 shadow-lg shadow-indigo-500/20 active:scale-[0.98]">
-                  <ShoppingBag className="w-5 h-5" />
-                  <span>Add to Cart</span>
-                </button>
-
-                <button 
-                  title="Save to favorites"
-                  className="p-4 rounded-2xl bg-slate-950/80 hover:bg-slate-800 text-slate-300 hover:text-rose-400 border border-slate-800 transition duration-200"
-                >
-                  <Heart className="w-5 h-5" />
-                </button>
+                {isMainProductCartItem ?
+                  <button
+                    onClick={() => {
+                      if (currentProduct) {
+                        handelRemoveCartItem(currentProduct);
+                      }
+                    }}
+                    className="flex-1 flex items-center justify-center gap-2 bg-rose-500/10 hover:bg-rose-500 text-rose-400 hover:text-white border border-rose-500/20 hover:border-rose-500/40 font-bold px-8 py-4 rounded-2xl transition duration-200 shadow-lg shadow-rose-500/5 active:scale-[0.98] cursor-pointer"
+                  >
+                    <Trash2 className="w-5 h-5" />
+                    <span>Remove Item</span>
+                  </button>
+                  :
+                  <button
+                    onClick={() => {
+                      if (currentProduct) {
+                        handelAddToCart(currentProduct);
+                      }
+                    }}
+                    className="flex-1 flex items-center justify-center gap-2 bg-indigo-500 hover:bg-indigo-600 text-white font-bold px-8 py-4 rounded-2xl transition duration-200 shadow-lg shadow-indigo-500/20 active:scale-[0.98] cursor-pointer"
+                  >
+                    <ShoppingBag className="w-5 h-5" />
+                    <span>Add to Cart</span>
+                  </button>
+                }
               </div>
 
               {/* Features Row */}
@@ -165,21 +177,21 @@ const {products} = useContext(MyStore);
 
         {/* ================= PAGINATION BUTTONS ================= */}
         <div className="flex items-center justify-between gap-4">
-          
+
           {
-            (previousId === 0 ) ||
+            (previousId === 0) ||
             <Link to={`/product/${previousId}`} className="flex items-center gap-2 bg-slate-900 hover:bg-slate-800 text-slate-300 px-6 py-3 rounded-xl border border-slate-800 transition duration-200 text-xs font-semibold">
-            <ChevronLeft className="w-4 h-4" />
-            <span>Previous</span>
-          </Link>
+              <ChevronLeft className="w-4 h-4" />
+              <span>Previous</span>
+            </Link>
           }
 
           {
-            (nextId > products.length) || 
-            <Link to={`/product/${Number(id)+1}`} className="flex items-center gap-2 bg-indigo-500 hover:bg-indigo-600 text-white px-6 py-3 rounded-xl transition duration-200 text-xs font-semibold shadow-md">
-            <span>Next</span>
-            <ChevronRight className="w-4 h-4" />
-          </Link>
+            (nextId > products.length) ||
+            <Link to={`/product/${Number(id) + 1}`} className="flex items-center gap-2 bg-indigo-500 hover:bg-indigo-600 text-white px-6 py-3 rounded-xl transition duration-200 text-xs font-semibold shadow-md">
+              <span>Next</span>
+              <ChevronRight className="w-4 h-4" />
+            </Link>
           }
         </div>
 
@@ -190,9 +202,21 @@ const {products} = useContext(MyStore);
           </h2>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            {reletedProducts.map((item) => (
-              <ProductCard key={item.id} product={item} />
-            ))}
+            {reletedProducts.map((item) => {
+              // 1. Calculate boolean (true/false) using optional chaining
+              const isItemInCart = loggedInUser?.cartItems.some(
+                (userItem) => userItem.id === item.id
+              );
+
+              // 2. Pass the calculated boolean directly to the prop
+              return (
+                <ProductCard
+                  key={item.id}
+                  product={item}
+                  isCartItem={isItemInCart}
+                />
+              );
+            })}
           </div>
         </div>
 

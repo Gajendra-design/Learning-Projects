@@ -8,7 +8,7 @@ import { Outlet, useParams } from 'react-router';
 export default function Shop() {
 
   const {productCatagory} = useParams() 
-  const { products, setProducts } = useContext(MyStore)
+  const { products, setProducts, loggedInUser } = useContext(MyStore)
   const [searchText, setSearchText] = useState('')
   const [catagory, setCatagory] = useState(productCatagory === "all" ? "" : productCatagory.toLowerCase());
   const [priceRange, setPriceRange] = useState('')  
@@ -146,9 +146,12 @@ export default function Shop() {
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 justify-items-center pt-2">
         {
           //now humne hamare getResults ko aise design kiya hai ki agar hamare search and fiter me kuch value nahi hai tho hit filter products will simply be all the products in the product array spo humko extra conditional rendering nahi karni hogi
-          getResults().map((item) => (
-              <ProductCard key={item.title.concat(item.id, item.category)} product={item} />
-          ))
+          getResults().map((item) => {
+
+            const isCartItem = loggedInUser.cartItems.some(userCartitem => userCartitem.id === item.id)
+    
+              return (<ProductCard key={item.title.concat(item.id, item.category)} product={item} isCartItem={isCartItem} />)
+          })
         }
       </div>
 

@@ -1,8 +1,12 @@
-import React from 'react';
-import { Star, ShoppingBag, Eye } from 'lucide-react';
+import React, { useContext } from 'react';
+import { Star, ShoppingBag, Eye, Trash2 } from 'lucide-react';
 import { Link } from 'react-router';
+import { MyStore } from '../../Context/MyStore';
 
-export default function ProductCard({ product }) {
+export default function ProductCard({ product, isCartItem }) {
+
+  const { handelAddToCart,handelRemoveCartItem } = useContext(MyStore)
+
   return (
     <div className="group relative bg-slate-900 border border-slate-800 hover:border-slate-700/80 rounded-2xl p-4 flex flex-col justify-between transition-all duration-300 shadow-lg hover:shadow-slate-950/50 w-full max-w-sm">
 
@@ -73,14 +77,25 @@ export default function ProductCard({ product }) {
               ${product.price?.toFixed(2)}
             </span>
           </div>
-
-          <button
-            title="Add to Cart"
-            className="flex items-center gap-2 bg-indigo-500 hover:bg-indigo-600 text-white text-xs font-semibold px-4 py-2.5 rounded-xl transition-all duration-200 shadow-md shadow-indigo-500/10 active:scale-95"
-          >
-            <ShoppingBag className="w-4 h-4" />
-            <span>Add</span>
-          </button>
+          {isCartItem ? (
+            <button
+              onClick={() => handelRemoveCartItem(product)}
+              title="Remove from Cart"
+              className="flex items-center gap-2 bg-rose-500/10 hover:bg-rose-500 text-rose-400 hover:text-white border border-rose-500/20 hover:border-rose-500/40 text-xs font-semibold px-4 py-2.5 rounded-xl transition-all duration-200 cursor-pointer shadow-sm active:scale-95"
+            >
+              <Trash2 className="w-4 h-4" />
+              <span>Remove</span>
+            </button>
+          ) : (
+            <button
+              onClick={() => handelAddToCart(product)}
+              title="Add to Cart"
+              className="flex items-center gap-2 bg-indigo-500 hover:bg-indigo-600 text-white text-xs font-semibold px-4 py-2.5 rounded-xl transition-all duration-200 cursor-pointer shadow-md shadow-indigo-500/10 active:scale-95"
+            >
+              <ShoppingBag className="w-4 h-4" />
+              <span>Add</span>
+            </button>
+          )}
         </div>
       </div>
 
