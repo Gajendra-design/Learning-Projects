@@ -54,12 +54,12 @@ const {products} = useContext(MyStore);
         
         {/* ================= BREADCRUMBS ================= */}
         <nav className="flex items-center gap-2 text-xs md:text-sm text-slate-400">
-          <Link to="/shop" className="hover:text-indigo-400 transition-colors flex items-center gap-1">
+          <Link to="/shop/all" className="hover:text-indigo-400 transition-colors flex items-center gap-1">
             <ArrowLeft className="w-3.5 h-3.5" />
             <span>Products</span>
           </Link>
           <span>/</span>
-          <Link to="/shop" className="hover:text-indigo-400 transition-colors">
+          <Link to={`/shop/${currentProduct.category}`} className="hover:text-indigo-400 transition-colors">
             {currentProduct.category}
           </Link>
           <span>/</span>

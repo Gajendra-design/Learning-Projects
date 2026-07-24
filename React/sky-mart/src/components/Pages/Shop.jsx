@@ -11,10 +11,7 @@ export default function Shop() {
   const { products, setProducts } = useContext(MyStore)
   const [searchText, setSearchText] = useState('')
   const [catagory, setCatagory] = useState(productCatagory === "all" ? "" : productCatagory.toLowerCase());
-  const [priceRange, setPriceRange] = useState('')
-  console.log(catagory);
-  
-
+  const [priceRange, setPriceRange] = useState('')  
 
 
   const getProducts = async (url) => {

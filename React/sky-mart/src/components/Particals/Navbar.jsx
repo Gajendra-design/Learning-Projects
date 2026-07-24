@@ -25,7 +25,7 @@ export default function Navbar() {
         <NavLink to="/" className="text-slate-300 hover:text-white transition-colors duration-200 font-medium">
           Home
         </NavLink>
-        <NavLink to="/shop" className="text-slate-300 hover:text-white transition-colors duration-200 font-medium">
+        <NavLink to="/shop/all" className="text-slate-300 hover:text-white transition-colors duration-200 font-medium">
           Shop
         </NavLink>
         <NavLink to="/about" className="text-slate-300 hover:text-white transition-colors duration-200 font-medium">
