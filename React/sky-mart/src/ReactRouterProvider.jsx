@@ -9,6 +9,7 @@ import Shop from './components/Pages/Shop'
 import About from './components/Pages/About'
 import ProtectedRoute from './ProtectedRoute'
 import PublicRoute from './PublicRoute'
+import ProductDisplay from './components/Pages/ProdcutDisplay'
 
 const ReactRouterProvider = () => {
 
@@ -47,11 +48,15 @@ const ReactRouterProvider = () => {
             },
             {
               path: "shop",
-              element: <Shop />
+              element: <Shop />,
             },
             {
               path: 'about',
               element: <About />
+            },
+            {
+              path: 'product/:id',
+              element: <ProductDisplay />
             }
           ]
         }

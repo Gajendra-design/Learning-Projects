@@ -3,6 +3,7 @@ import { Search, ChevronDown, X } from 'lucide-react';
 import ProductCard from '../Particals/ProductCard';
 import axios from 'axios';
 import { MyStore } from '../../Context/MyStore';
+import { Outlet } from 'react-router';
 
 export default function Shop() {
 
@@ -151,6 +152,8 @@ export default function Shop() {
         }
       </div>
 
+
     </div>
+
   );
 }

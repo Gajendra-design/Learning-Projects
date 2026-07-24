@@ -8,7 +8,7 @@ export default function ProductCard({ product }) {
 
 
 
-      <Link to='/product-display/7'>
+      <Link to={`/product/${product.id}`}>
 
         {/* ================= CARD HEADER / IMAGE ================= */}
         <div className="relative w-full h-52 rounded-xl bg-slate-950/80 border border-slate-800/80 p-4 flex items-center justify-center overflow-hidden">

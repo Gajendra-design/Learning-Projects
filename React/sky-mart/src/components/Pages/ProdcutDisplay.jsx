@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { 
   Star, 
   ShoppingBag, 
@@ -10,33 +10,39 @@ import {
   ChevronRight, 
   ArrowLeft 
 } from 'lucide-react';
-import { Link } from 'react-router';
+import { Link, useParams } from 'react-router';
 import ProductCard from '../Particals/ProductCard';
+import axios from 'axios';
+import { MyStore } from '../../Context/MyStore';
 
 export default function ProductDisplay() {
-  // Dummy data fallback
-  const currentProduct = product || {
-    id: 7,
-    title: "Smart Watch Series 5",
-    price: 299.99,
-    description: "Advanced smartwatch with health monitoring, GPS, and water resistance. Stay connected and track your fitness goals.",
-    category: "Electronics",
-    image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=1000&auto=format&fit=crop&q=80",
-    rating: { rate: 4.2, count: 85 }
-  };
 
-  // Related products fallback
-  const dummyRelated = relatedProducts || [
-    {
-      id: 8,
-      title: "Headphones Wireless",
-      price: 99.99,
-      description: "High quality noise cancelling headphones.",
-      category: "Electronics",
-      image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500&auto=format&fit=crop&q=80",
-      rating: { rate: 4.5, count: 210 }
-    }
-  ];
+const {id} = useParams()
+const [currentProduct,setCurrentProducts] = useState(null); 
+const [reletedProducts,setReletedProducts] = useState(null);
+const {products} = useContext(MyStore);
+
+  const getData = async () =>{
+    const data = await (await axios.get(`https://fakestoreapi.com//products/${id}`)).data
+    const filterProducts = products.filter((product)=>{
+      return product.category === data.category
+    })
+    setCurrentProducts(data);
+    setReletedProducts(filterProducts)  
+  }
+
+  useEffect(()=>{getData()},[])
+
+  
+
+
+  if(!currentProduct){
+    return (
+      <div className="min-h-screen bg-slate-950 text-white flex items-center justify-center">
+        <p className="text-lg font-medium text-slate-400">Loading product details...</p>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100 px-4 py-6 md:px-12 font-sans space-y-10">
@@ -173,7 +179,7 @@ export default function ProductDisplay() {
           </h2>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            {dummyRelated.map((item) => (
+            {reletedProducts.map((item) => (
               <ProductCard key={item.id} product={item} />
             ))}
           </div>
