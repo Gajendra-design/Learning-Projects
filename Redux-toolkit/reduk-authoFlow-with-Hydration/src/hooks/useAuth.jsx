@@ -20,14 +20,19 @@ export const useAuth = () => {
         const update = [...users, data];
         localStorage.setItem('registerUsers', JSON.stringify(update));
         setUsers(update)
+        reset();
+        navigate('/')
     }
-
+    
     const handelLogin = (data) => {
         localStorage.setItem('currentUser',JSON.stringify(data));
         dispatch(addUser(data))
+        reset();
+        navigate('/main')
     }
 
     const logout = ()=>{
+        localStorage.removeItem('registerUsers')
         dispatch(removeUser())
     }
 
