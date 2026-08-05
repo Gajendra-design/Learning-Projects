@@ -1,16 +1,12 @@
 import React from 'react';
-import { useQuery } from '@tanstack/react-query';
-import { productApi } from '../api/productApi';
 import { GridSkeleton } from '../components/GridSkeleton';
 import { ProductCard } from '../components/ProductCard';
+import { useProducts } from '../productsHooks/useProducts';
 
 
 const ShopPage = () => {
-  const { data, isPending, error } = useQuery({
-    queryKey: ['productsData'],
-    queryFn: productApi,
-  });
-
+  
+  const {data,isPending,error} = useProducts();
   const products = Array.isArray(data) ? data : data?.products || [];
 
   return (
