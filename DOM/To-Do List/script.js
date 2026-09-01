@@ -2,7 +2,7 @@ const toDo = document.querySelector('#toDo');
 const inProgress = document.querySelector('#inProgress');
 const completed = document.querySelector('#Completed');
 const tasks = document.querySelectorAll('.task');
-const dropZones = document.querySelectorAll('.dropZone')
+// const dropZones = document.querySelectorAll('.dropZone')
 let dropElement = null;
 
 tasks.forEach((task)=>{
@@ -13,28 +13,33 @@ tasks.forEach((task)=>{
     })
 })
 
-dropZones.forEach((dropZone)=>{
-    dropZone.addEventListener('dragenter',(e)=>{
-        // console.log('enter');
-        dropZone.classList.add('hover');
+dragEffect(toDo);
+dragEffect(inProgress);
+dragEffect(completed);
+
+function dragEffect(dropZone){
+
+    dropZone.addEventListener('dragstart',(e)=>{
+        console.log('start',dropZone);
+        // dropZone.classList.toggle('hover');
+    })
+
+    dropZone.addEventListener('dragenter',()=>{
+        console.log('enter',dropZone);
+        
     })
 
     dropZone.addEventListener('dragleave',()=>{
-        // console.log('leave');
-        dropZone.classList.remove('hover')
+        console.log('leave',dropZone);
+        
     })
 
-    dropZone.addEventListener('dragend',()=>{
-        dropZone.classList.remove('hover')
+    dropZone.addEventListener('dragend',(e)=>{
+        console.log('end',dropZone);
+
     })
 
-    dropZone.addEventListener('dragover',(e)=>{
-        e.preventDefault();
-        // dropZone.append(dropElement)
-    })
+    return;
 
-    dropZone.addEventListener('drop',()=>{
-        dropZone.append(dropElement)
-    })
-})
+}
 

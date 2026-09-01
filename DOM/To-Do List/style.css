@@ -43,7 +43,9 @@ html, body{
 }
 
 main{
-    min-height: 100vh;
+    height: 100vh;
+    width: 100%;
+    /* overflow: hidden; */
     display: flex;
     flex-direction: column;
     gap: var(--gap-sm);
@@ -72,6 +74,9 @@ section{
     justify-content: space-between;
     padding: var(--p-lg);
     flex-grow: 1;
+    min-height: 0;
+    width: 100%;
+    height: calc(100% - 30px);
 }
 
 .task-container{
@@ -84,7 +89,14 @@ section{
     padding: var(--p-md);
     border: transparent;
     border-radius: var(--r-md);
-    transform: all 0.5s ease-in;
+    /* transition: all 0.5s ease-in; */
+    overflow-y: auto;
+    scrollbar-width: none;
+    position: relative;
+}
+
+.task-container *{
+    pointer-events: none;
 }
 
 .hover{
@@ -97,6 +109,10 @@ section{
     justify-content: space-between;
     align-items: center;
     padding: var(--p-md);
+    background-color: rgb(0, 0, 0,0.55);
+    backdrop-filter: 2.5px;
+    position: sticky;
+    top: 0%;
 }
 
 .task{
