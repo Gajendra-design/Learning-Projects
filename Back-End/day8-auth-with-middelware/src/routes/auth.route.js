@@ -1,5 +1,6 @@
 import express from "express";
-import { authLoginController, authRegisterController, deleteAllUsersControllers } from "../controllers/auth.controller.js";
+import { authLoginController, authRegisterController, deleteAllUsersControllers, verifyController } from "../controllers/auth.controller.js";
+import { authentication } from "../middlewares/auth.middelware.js";
 
 const authRoute = express.Router();
 
@@ -10,6 +11,7 @@ authRoute.get('/test',(req,res)=>{
 
 authRoute.post('/register',authRegisterController)
 authRoute.post('/login',authLoginController)
+authRoute.get('/me',authentication,verifyController)
 authRoute.get('/deleteAllUsers',deleteAllUsersControllers)
 
 
